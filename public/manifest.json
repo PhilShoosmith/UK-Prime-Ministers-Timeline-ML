@@ -1,0 +1,21 @@
+{
+  "name": "UK PMs Timeline Game",
+  "short_name": "PMs Game",
+  "description": "A political guessing game about UK Prime Ministers.",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#1e293b",
+  "theme_color": "#1e293b",
+  "icons": [
+    {
+      "src": "/icon-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/icon-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}

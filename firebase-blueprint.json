@@ -1,0 +1,23 @@
+{
+  "entities": {
+    "HallOfFameEntry": {
+      "title": "Hall of Fame Entry",
+      "description": "An entry in the leaderboard.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "maxLength": 100 },
+        "score": { "type": "number" },
+        "time_left": { "type": "number" },
+        "game_mode": { "type": "string", "enum": ["year", "pm", "fact"] },
+        "date": { "type": "string" }
+      },
+      "required": ["name", "score", "time_left", "game_mode", "date"]
+    }
+  },
+  "firestore": {
+    "hall_of_fame/{entryId}": {
+      "schema": "HallOfFameEntry",
+      "description": "Leaderboard entries."
+    }
+  }
+}
