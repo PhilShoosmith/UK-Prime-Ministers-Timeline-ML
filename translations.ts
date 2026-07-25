@@ -114,7 +114,7 @@ export const translations = {
     'privacy.h4': '4. Changes to This Policy',
     'privacy.p5': 'We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page.',
     'privacy.h5': '5. Contact Us',
-    'privacy.p6': 'Any questions about this Privacy Policy, please contact the developer.',
+    'privacy.p6': 'If you have any questions about this Privacy Policy, please contact us at historicaltimelines4@gmail.com.',
     'privacy.back': 'Back to Game',
     // TermsOfService
     'terms.title': 'Terms of Service',
