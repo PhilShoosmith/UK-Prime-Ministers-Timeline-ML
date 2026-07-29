@@ -155,7 +155,17 @@ const HallOfFame: React.FC<HallOfFameProps> = ({ leaderboards, onBack, initialMo
                     </span>
                   </td>
                   <td className="py-4 text-center font-mono text-blue-400">{entry.timeLeft}s</td>
-                  <td className="py-4 text-right text-xs text-slate-500 pr-2">{entry.date}</td>
+                  <td className="py-4 text-right text-xs text-slate-500 pr-2">
+                    {(() => {
+                      try {
+                        const d = new Date(entry.date);
+                        if (isNaN(d.getTime())) return entry.date;
+                        return `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}/${d.getFullYear()}`;
+                      } catch {
+                        return entry.date;
+                      }
+                    })()}
+                  </td>
                 </tr>
               )) : (
                 <tr>
