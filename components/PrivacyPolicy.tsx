@@ -37,7 +37,14 @@ const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({ onBack }) => {
           <p>{t('privacy.p5')}</p>
 
           <h2 className="text-lg font-bold text-white mt-4">{t('privacy.h5')}</h2>
-          <p>{t('privacy.p6')}</p>
+          <p>
+            {t('privacy.p6').split('historicaltimelines4@gmail.com').map((part, i, arr) => (
+              <React.Fragment key={i}>
+                {part}
+                {i < arr.length - 1 && <span className="font-bold text-white">historicaltimelines4@gmail.com</span>}
+              </React.Fragment>
+            ))}
+          </p>
         </div>
         <div className="p-6 border-t border-slate-700 flex justify-end flex-shrink-0">
              <button
