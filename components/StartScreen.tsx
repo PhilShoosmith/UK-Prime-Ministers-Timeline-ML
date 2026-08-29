@@ -100,6 +100,19 @@ const StartScreen: React.FC<StartScreenProps> = ({ onStart, pms, onShowInstructi
                 </button>
             </div>
         </div>
+        
+        {/* Hall of Fame Link */}
+        <div className="mt-8 flex justify-center items-center animate-fade-in-up animation-delay-500">
+          <button 
+            onClick={onShowHallOfFame} 
+            className="flex items-center justify-center gap-2 text-slate-300 hover:text-yellow-400 transition-colors duration-300 focus:outline-none text-lg font-semibold"
+            title={t('hof.title')}
+            aria-label={t('hof.title')}
+          >
+            <span>{t('hof.title')} &rarr;</span>
+            <span className="text-2xl hover:scale-125 transition-transform">🥇</span>
+          </button>
+        </div>
       </div>
 
       {/* Footer Links at the bottom of the screen */}
@@ -114,15 +127,6 @@ const StartScreen: React.FC<StartScreenProps> = ({ onStart, pms, onShowInstructi
         >
           {t('start.feedback')}
         </a>
-        <span>&bull;</span>
-        <button 
-          onClick={onShowHallOfFame} 
-          className="flex items-center justify-center text-xl hover:scale-125 transition-transform duration-300 focus:outline-none"
-          title={t('hof.title')}
-          aria-label={t('hof.title')}
-        >
-          🥇
-        </button>
       </div>
     </div>
   );

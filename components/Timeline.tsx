@@ -72,14 +72,14 @@ const Timeline: React.FC<TimelineProps> = ({ onGuess, disabled, lastGuess }) => 
         {POLITICAL_ERAS.map(era => (
             <div 
                 key={era.name}
-                className={`h-full flex items-center justify-center gap-2 px-2 ${era.color}`}
+                className={`h-full flex items-center justify-center px-1 overflow-hidden ${era.color}`}
                 style={{
                     position: 'absolute',
                     left: `${yearToPercentage(era.start)}%`,
                     width: `${yearToPercentage(era.end) - yearToPercentage(era.start)}%`,
                 }}
             >
-                <span className={`text-sm font-semibold opacity-80 select-none ${era.textColor}`}>{era.name}</span>
+                <span className={`text-[10px] sm:text-xs md:text-sm font-semibold opacity-80 select-none truncate ${era.textColor}`}>{era.name}</span>
             </div>
         ))}
       </div>
