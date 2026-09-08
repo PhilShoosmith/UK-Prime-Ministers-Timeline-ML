@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import { PrimeMinister } from '../types';
 import CoatOfArms from './CoatOfArms';
 import { useLanguage } from '../contexts/LanguageContext';
+import { Crown } from 'lucide-react';
 
 interface PrimeMinisterCardProps {
   primeMinister: PrimeMinister;
@@ -9,6 +10,7 @@ interface PrimeMinisterCardProps {
   isAdmin?: boolean;
   onPortraitUpload?: (pmId: number, newImageUrl: string) => void;
   stagedPortraitUrl?: string;
+  onShowCareerTree?: (pm: PrimeMinister) => void;
 }
 
 const getPartyStyles = (party: string): { badge: string; cardHover: string; } => {
@@ -28,7 +30,7 @@ const getPartyStyles = (party: string): { badge: string; cardHover: string; } =>
   return { badge: 'bg-slate-700 text-slate-300', cardHover: 'hover:border-slate-600' };
 };
 
-const PrimeMinisterCard: React.FC<PrimeMinisterCardProps> = ({ primeMinister, showTerm, isAdmin, onPortraitUpload, stagedPortraitUrl }) => {
+const PrimeMinisterCard: React.FC<PrimeMinisterCardProps> = ({ primeMinister, showTerm, isAdmin, onPortraitUpload, stagedPortraitUrl, onShowCareerTree }) => {
   const { t } = useLanguage();
   const portraitFileInputRef = useRef<HTMLInputElement>(null);
 
@@ -130,9 +132,25 @@ const PrimeMinisterCard: React.FC<PrimeMinisterCardProps> = ({ primeMinister, sh
       </div>
       
       {showTerm && (
-        <p className="text-md text-amber-300/80 mt-2 font-mono text-center">
-          {termStart} – {termEndDisplay} {durationDisplay}
-        </p>
+        <>
+          <p className="text-md text-amber-300/80 mt-2 font-mono text-center">
+            {termStart} – {termEndDisplay} {durationDisplay}
+          </p>
+          {onShowCareerTree && (
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                onShowCareerTree(primeMinister);
+              }}
+              className="mt-3 px-3 py-1.5 bg-gradient-to-r from-amber-600/20 to-yellow-600/20 hover:from-amber-600/40 hover:to-yellow-600/40 text-amber-300 border border-amber-500/40 hover:border-amber-400 rounded-full text-xs font-semibold flex items-center gap-1.5 transition-all shadow-sm"
+              title={`View career tree and key roles for ${name}`}
+            >
+              <Crown className="w-3.5 h-3.5 text-amber-400" />
+              <span>Career Tree</span>
+            </button>
+          )}
+        </>
       )}
 
       <div className="mt-6 pt-6 w-full border-t border-slate-700/50 flex flex-col items-center">

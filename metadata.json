@@ -2,5 +2,7 @@
   "name": "Remix2: Languages UK Prime Ministers Timeline: A Political Guessing Game 1.4.3",
   "description": "Test your knowledge of British Prime Ministers by placing them on the correct spot on the timeline based on when their term began. Score points for accuracy and see how well you know your political history!",
   "requestFramePermissions": [],
-  "majorCapabilities": []
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
 }

@@ -20,6 +20,7 @@ import PrivacyPolicy from './components/PrivacyPolicy';
 import TermsOfService from './components/TermsOfService';
 import HallOfFame from './components/HallOfFame';
 import InstructionsModal from './components/InstructionsModal';
+import CareerTreeModal from './components/CareerTreeModal';
 import { useLanguage } from './contexts/LanguageContext';
 
 interface GroundingSource {
@@ -83,6 +84,11 @@ const App: React.FC = () => {
   const [ragContent, setRagContent] = useState<{ title: string; text: string; imageUrl?: string; } | null>(null);
   const [ragSources, setRagSources] = useState<GroundingSource[]>([]);
   const [isRagLoading, setIsRagLoading] = useState<boolean>(false);
+
+  const [selectedCareerPM, setSelectedCareerPM] = useState<PrimeMinister | null>(null);
+  const handleShowCareerTree = useCallback((pm: PrimeMinister) => {
+    setSelectedCareerPM(pm);
+  }, []);
 
   // Fetch leaderboards on mount
   useEffect(() => {
@@ -328,7 +334,7 @@ const App: React.FC = () => {
       case 'end':
         return <EndScreen score={score} timeLeft={totalTimeLeft} onRestart={() => setGameState('start')} onSaveScore={saveScore} />;
       case 'review':
-        return <ReviewScreen pms={allPMsData} onStop={() => setGameState('start')} onLearnMore={handleLearnMore} />;
+        return <ReviewScreen pms={allPMsData} onStop={() => setGameState('start')} onLearnMore={handleLearnMore} onShowCareerTree={handleShowCareerTree} />;
       case 'privacy':
         return <PrivacyPolicy onBack={() => setGameState('start')} />;
       case 'terms':
@@ -352,13 +358,13 @@ const App: React.FC = () => {
             <div className="mt-16 md:mt-24 w-full flex flex-col lg:flex-row lg:items-start lg:justify-center lg:gap-8">
               {(gameMode !== 'fact' || gameState !== 'playing') && (
                 <div className="w-full max-w-sm mx-auto lg:mx-0 flex-shrink-0 animate-fade-in">
-                  <PrimeMinisterCard primeMinister={currentPM} showTerm={gameState === 'feedback' || isAdmin} isAdmin={isAdmin} />
+                  <PrimeMinisterCard primeMinister={currentPM} showTerm={gameState === 'feedback' || isAdmin} isAdmin={isAdmin} onShowCareerTree={handleShowCareerTree} />
                 </div>
               )}
 
               <div className="w-full lg:max-w-md mt-8 lg:mt-0">
                 {gameState === 'feedback' && lastGuess ? (
-                  <Feedback lastGuess={lastGuess} onNext={nextRound} primeMinister={currentPM} onLearnMore={handleLearnMore} allPMs={allPMsData} onStop={() => setGameState('start')} />
+                  <Feedback lastGuess={lastGuess} onNext={nextRound} primeMinister={currentPM} onLearnMore={handleLearnMore} onShowCareerTree={handleShowCareerTree} allPMs={allPMsData} onStop={() => setGameState('start')} />
                 ) : (
                    <div className="p-6 bg-slate-800/50 rounded-2xl border border-slate-700/50 animate-fade-in-up">
                     {gameMode === 'year' ? (
@@ -397,6 +403,13 @@ const App: React.FC = () => {
       {renderGameScreen()}
       <RAGModal isOpen={isRagModalOpen} isLoading={isRagLoading} content={ragContent} sources={ragSources} onClose={() => setIsRagModalOpen(false)} />
       <InstructionsModal isOpen={isInstructionsOpen} onClose={() => setIsInstructionsOpen(false)} />
+      {selectedCareerPM && (
+        <CareerTreeModal 
+          primeMinister={selectedCareerPM} 
+          isOpen={!!selectedCareerPM} 
+          onClose={() => setSelectedCareerPM(null)} 
+        />
+      )}
     </main>
   );
 };

@@ -10,9 +10,10 @@ interface ReviewScreenProps {
   pms: PrimeMinister[];
   onStop: () => void;
   onLearnMore: (pm: PrimeMinister) => void;
+  onShowCareerTree?: (pm: PrimeMinister) => void;
 }
 
-const ReviewScreen: React.FC<ReviewScreenProps> = ({ pms, onStop, onLearnMore }) => {
+const ReviewScreen: React.FC<ReviewScreenProps> = ({ pms, onStop, onLearnMore, onShowCareerTree }) => {
   const [isHoverPaused, setIsHoverPaused] = useState(false);
   const [isManuallyPaused, setIsManuallyPaused] = useState(false);
   const [isSearchPopupOpen, setIsSearchPopupOpen] = useState(false);
@@ -221,6 +222,7 @@ const ReviewScreen: React.FC<ReviewScreenProps> = ({ pms, onStop, onLearnMore })
               key={`${pm.id}-${index}`}
               primeMinister={pm}
               onLearnMore={onLearnMore}
+              onShowCareerTree={onShowCareerTree}
             />
           ))}
           {isSearching && filteredPms.length === 0 && (

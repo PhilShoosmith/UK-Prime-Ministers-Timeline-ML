@@ -2,6 +2,7 @@
 import React from 'react';
 import { AnyLastGuess, PrimeMinister } from '../types';
 import { useLanguage } from '../contexts/LanguageContext';
+import { Crown } from 'lucide-react';
 
 interface FeedbackProps {
   lastGuess: AnyLastGuess;
@@ -9,10 +10,11 @@ interface FeedbackProps {
   primeMinister: PrimeMinister;
   allPMs: PrimeMinister[];
   onLearnMore: (primeMinister: PrimeMinister) => void;
+  onShowCareerTree?: (primeMinister: PrimeMinister) => void;
   onStop: () => void;
 }
 
-const Feedback: React.FC<FeedbackProps> = ({ lastGuess, onNext, primeMinister, onLearnMore, allPMs, onStop }) => {
+const Feedback: React.FC<FeedbackProps> = ({ lastGuess, onNext, primeMinister, onLearnMore, onShowCareerTree, allPMs, onStop }) => {
   const { t, language } = useLanguage();
 
   const renderFeedbackContent = () => {
@@ -148,6 +150,16 @@ const Feedback: React.FC<FeedbackProps> = ({ lastGuess, onNext, primeMinister, o
           </svg>
           {t('rag.title')}
         </button>
+        {onShowCareerTree && (
+          <button
+            onClick={() => onShowCareerTree(primeMinister)}
+            className="w-full sm:w-auto px-6 py-2 bg-gradient-to-r from-amber-500 to-yellow-500 text-slate-950 font-bold rounded-lg hover:from-amber-400 hover:to-yellow-400 transform hover:scale-105 transition-all duration-300 ease-in-out shadow-lg focus:outline-none focus:ring-4 focus:ring-amber-500/50 flex items-center justify-center gap-2"
+            aria-label={`Show career tree for ${primeMinister.name}`}
+          >
+            <Crown className="h-5 w-5 text-slate-950" />
+            <span>Career Tree</span>
+          </button>
+        )}
         <button
           onClick={onStop}
           className="w-full sm:w-auto px-6 py-2 bg-red-700 text-white font-semibold rounded-lg hover:bg-red-800 transform hover:scale-105 transition-all duration-300 ease-in-out shadow-lg focus:outline-none focus:ring-4 focus:ring-red-500/50 flex items-center justify-center gap-2"

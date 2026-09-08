@@ -1,10 +1,12 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { PrimeMinister } from '../types';
 import { useLanguage } from '../contexts/LanguageContext';
+import { Crown } from 'lucide-react';
 
 interface ReviewCardProps {
   primeMinister: PrimeMinister;
   onLearnMore: (pm: PrimeMinister) => void;
+  onShowCareerTree?: (pm: PrimeMinister) => void;
 }
 
 const getPartyStyles = (party: string): { border: string; } => {
@@ -16,7 +18,7 @@ const getPartyStyles = (party: string): { border: string; } => {
   return { border: 'border-slate-600' };
 };
 
-const ReviewCard: React.FC<ReviewCardProps> = ({ primeMinister, onLearnMore }) => {
+const ReviewCard: React.FC<ReviewCardProps> = ({ primeMinister, onLearnMore, onShowCareerTree }) => {
   const { name, party, termStart, termEnd, context, contextFr, contextJa, contextEs, contextZh, contextAr, contextHi, imageUrl } = primeMinister;
   const styles = getPartyStyles(party);
   const { t, language } = useLanguage();
@@ -87,6 +89,21 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ primeMinister, onLearnMore }) =
             <p className="text-sm text-slate-200 text-left">{displayContext}</p>
           </div>
         )}
+
+        <div className="mt-2 pt-2 border-t border-slate-700/60 flex-shrink-0">
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              onShowCareerTree?.(primeMinister);
+            }}
+            className="w-full py-1.5 px-3 bg-gradient-to-r from-amber-600/20 to-yellow-600/20 hover:from-amber-600/40 hover:to-yellow-600/40 text-amber-300 border border-amber-500/40 hover:border-amber-400 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition-all shadow-sm"
+            title={`View career tree and key roles for ${name}`}
+          >
+            <Crown className="w-3.5 h-3.5 text-amber-400" />
+            <span>Career Tree</span>
+          </button>
+        </div>
       </div>
     </div>
   );
