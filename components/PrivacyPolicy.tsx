@@ -25,7 +25,11 @@ const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({ onBack }) => {
           <p>{t('privacy.p1')}</p>
           
           <h2 className="text-lg font-bold text-white mt-4">{t('privacy.h1')}</h2>
-          <p>{t('privacy.p2')}</p>
+          <p>
+            {t('privacy.p2').split('**').map((part, i) => (
+              i % 2 === 1 ? <span key={i} className="font-bold text-white">{part}</span> : part
+            ))}
+          </p>
           
           <h2 className="text-lg font-bold text-white mt-4">{t('privacy.h2')}</h2>
           <p>{t('privacy.p3')}</p>

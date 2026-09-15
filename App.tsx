@@ -354,7 +354,7 @@ const App: React.FC = () => {
 
         return (
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-start min-h-screen py-8">
-            <Scoreboard score={score} incorrect={currentRound - score} round={currentRound + 1} totalRounds={ROUNDS_PER_GAME} timeLeft={timeLeft} isAdmin={isAdmin} />
+            <Scoreboard score={score} incorrect={(gameState === 'feedback' ? currentRound + 1 : currentRound) - score} round={currentRound + 1} totalRounds={ROUNDS_PER_GAME} timeLeft={timeLeft} isAdmin={isAdmin} />
             <div className="mt-16 md:mt-24 w-full flex flex-col lg:flex-row lg:items-start lg:justify-center lg:gap-8">
               {(gameMode !== 'fact' || gameState !== 'playing') && (
                 <div className="w-full max-w-sm mx-auto lg:mx-0 flex-shrink-0 animate-fade-in">
