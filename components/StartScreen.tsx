@@ -1,4 +1,5 @@
 import React, { useMemo, useState, useEffect } from 'react';
+import { RotateCw } from 'lucide-react';
 import { PrimeMinister, GameMode } from '../types';
 import { useLanguage } from '../contexts/LanguageContext';
 import LanguageDropdown from './LanguageDropdown';
@@ -16,7 +17,8 @@ interface StartScreenProps {
 const StartScreen: React.FC<StartScreenProps> = ({ onStart, pms, onShowInstructions, onReview, onShowPrivacy, onShowTerms, onShowHallOfFame }) => {
   const { t } = useLanguage();
   const [dailyFact, setDailyFact] = useState<{ pmName: string; fact: string } | null>(null);
-  
+  const [isRefreshing, setIsRefreshing] = useState(false);
+
   useEffect(() => {
     if (pms.length > 0) {
       // Use current date as seed for "daily" random fact
@@ -41,6 +43,28 @@ const StartScreen: React.FC<StartScreenProps> = ({ onStart, pms, onShowInstructi
       setDailyFact({ pmName: pm.name, fact: factText });
     }
   }, [pms]);
+
+  const handleRefreshFact = () => {
+    if (pms.length === 0) return;
+    setIsRefreshing(true);
+    setTimeout(() => setIsRefreshing(false), 500);
+
+    // Pick a different PM than the currently displayed one if possible
+    let availablePms = pms;
+    if (dailyFact && pms.length > 1) {
+      availablePms = pms.filter(p => p.name !== dailyFact.pmName);
+    }
+    const randomPm = availablePms[Math.floor(Math.random() * availablePms.length)];
+    
+    let factText = randomPm.context;
+    const sentences = randomPm.context.split(/(?<=[.!?])\s+/).filter(s => s.trim().length > 0);
+    if (sentences.length > 1) {
+      const factIndex = Math.floor(Math.random() * sentences.length);
+      factText = sentences[factIndex] || sentences[0];
+    }
+
+    setDailyFact({ pmName: randomPm.name, fact: factText });
+  };
 
   const allPortraits = pms
     .map(pm => ({
@@ -148,9 +172,21 @@ const StartScreen: React.FC<StartScreenProps> = ({ onStart, pms, onShowInstructi
       {dailyFact && (
         <div className="relative w-full max-w-2xl bg-slate-900/90 backdrop-blur-md border border-slate-700/50 rounded-xl p-4 shadow-xl z-20 animate-fade-in-up animation-delay-600 mx-auto mb-8">
           <div className="flex items-start gap-3 text-left">
-            <span className="text-2xl flex-shrink-0" aria-hidden="true">📜</span>
-            <div>
-              <h3 className="text-sm font-bold text-yellow-500 uppercase tracking-wider mb-1">{t('start.dailyFact')}</h3>
+            <span className="text-2xl flex-shrink-0 mt-0.5" aria-hidden="true">📜</span>
+            <div className="flex-grow min-w-0">
+              <div className="flex items-center justify-between gap-2 mb-1">
+                <h3 className="text-sm font-bold text-yellow-500 uppercase tracking-wider">{t('start.dailyFact')}</h3>
+                <button
+                  type="button"
+                  onClick={handleRefreshFact}
+                  className="flex items-center gap-1.5 px-2 py-1 text-xs font-medium text-slate-400 hover:text-yellow-400 hover:bg-slate-800/80 active:scale-95 rounded-md transition-all duration-200 focus:outline-none focus:ring-1 focus:ring-yellow-500/50"
+                  title={t('start.refreshFact')}
+                  aria-label={t('start.refreshFact')}
+                >
+                  <RotateCw className={`w-3.5 h-3.5 transition-transform duration-500 ${isRefreshing ? 'rotate-180 text-yellow-400' : ''}`} />
+                  <span className="hidden sm:inline">{t('start.refreshFact')}</span>
+                </button>
+              </div>
               <p className="text-slate-300 text-sm italic leading-relaxed">
                 "{dailyFact.fact}" <span className="font-semibold text-slate-400 not-italic">— {dailyFact.pmName}</span>
               </p>
