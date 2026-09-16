@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { PrimeMinister, GameMode } from '../types';
 import { useLanguage } from '../contexts/LanguageContext';
 import LanguageDropdown from './LanguageDropdown';
@@ -15,7 +15,33 @@ interface StartScreenProps {
 
 const StartScreen: React.FC<StartScreenProps> = ({ onStart, pms, onShowInstructions, onReview, onShowPrivacy, onShowTerms, onShowHallOfFame }) => {
   const { t } = useLanguage();
+  const [dailyFact, setDailyFact] = useState<{ pmName: string; fact: string } | null>(null);
   
+  useEffect(() => {
+    if (pms.length > 0) {
+      // Use current date as seed for "daily" random fact
+      const today = new Date().toDateString();
+      let seed = 0;
+      for (let i = 0; i < today.length; i++) {
+        seed += today.charCodeAt(i);
+      }
+      
+      const randomPmIndex = seed % pms.length;
+      const pm = pms[randomPmIndex];
+      
+      // Extract a single sentence or point from their context
+      let factText = pm.context;
+      const sentences = pm.context.split(/(?<=[.!?])\s+/);
+      if (sentences.length > 1) {
+          // Try to pick an interesting sentence (avoiding first/last if possible)
+          const factIndex = (seed % (sentences.length - 1)) + 1;
+          factText = sentences[factIndex] || sentences[0];
+      }
+      
+      setDailyFact({ pmName: pm.name, fact: factText });
+    }
+  }, [pms]);
+
   const allPortraits = pms
     .map(pm => ({
       id: pm.id,
@@ -27,12 +53,12 @@ const StartScreen: React.FC<StartScreenProps> = ({ onStart, pms, onShowInstructi
   const animationDuration = allPortraits.length * 5;
 
   return (
-    <div className="w-full h-screen flex items-center justify-center relative overflow-hidden">
+    <div className="w-full min-h-screen flex flex-col items-center relative overflow-y-auto overflow-x-hidden px-4">
       {/* Background Portrait Carousel */}
       <div className="absolute top-6 right-6 z-50">
         <LanguageDropdown />
       </div>
-      <div className="absolute inset-0 flex items-center opacity-20 scale-110 blur-sm">
+      <div className="fixed inset-0 flex items-center opacity-20 scale-110 blur-sm pointer-events-none">
         <div 
           className="flex-shrink-0 flex items-center"
           style={{ animation: `scroll ${animationDuration}s linear infinite` }}
@@ -50,8 +76,11 @@ const StartScreen: React.FC<StartScreenProps> = ({ onStart, pms, onShowInstructi
         </div>
       </div>
       
+      {/* Top spacer to help center content vertically but allow scrolling if needed */}
+      <div className="flex-grow"></div>
+
       {/* Main Content Card */}
-      <div className="relative text-center p-8 bg-slate-800/80 backdrop-blur-md rounded-2xl shadow-2xl border border-slate-700 max-w-lg mx-auto z-10">
+      <div className="relative text-center p-8 bg-slate-800/80 backdrop-blur-md rounded-2xl shadow-2xl border border-slate-700 max-w-lg w-full mx-auto z-10 mt-20 mb-8">
         <h1 className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500 mb-2 animate-fade-in-up mt-4">
           {t('start.title')}
         </h1>
@@ -115,8 +144,25 @@ const StartScreen: React.FC<StartScreenProps> = ({ onStart, pms, onShowInstructi
         </div>
       </div>
 
+      {/* Daily Historical Fact Banner */}
+      {dailyFact && (
+        <div className="relative w-full max-w-2xl bg-slate-900/90 backdrop-blur-md border border-slate-700/50 rounded-xl p-4 shadow-xl z-20 animate-fade-in-up animation-delay-600 mx-auto mb-8">
+          <div className="flex items-start gap-3 text-left">
+            <span className="text-2xl flex-shrink-0" aria-hidden="true">📜</span>
+            <div>
+              <h3 className="text-sm font-bold text-yellow-500 uppercase tracking-wider mb-1">{t('start.dailyFact')}</h3>
+              <p className="text-slate-300 text-sm italic leading-relaxed">
+                "{dailyFact.fact}" <span className="font-semibold text-slate-400 not-italic">— {dailyFact.pmName}</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <div className="flex-grow"></div>
+
       {/* Footer Links at the bottom of the screen */}
-      <div className="absolute bottom-6 left-0 right-0 flex justify-center items-center gap-4 text-xs text-slate-500 font-medium animate-fade-in-up animation-delay-600 z-20">
+      <div className="relative w-full flex justify-center items-center gap-4 text-xs text-slate-500 font-medium animate-fade-in-up animation-delay-600 z-20 pb-6">
         <button onClick={onShowPrivacy} className="hover:text-slate-300 transition-colors hover:underline">{t('start.privacy')}</button>
         <span>&bull;</span>
         <button onClick={onShowTerms} className="hover:text-slate-300 transition-colors hover:underline">{t('start.terms')}</button>

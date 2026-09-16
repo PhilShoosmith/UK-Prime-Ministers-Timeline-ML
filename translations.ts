@@ -18,6 +18,7 @@ export const translations = {
     'start.privacy': 'Privacy Policy',
     'start.terms': 'Terms of Service',
     'start.feedback': 'Feedback',
+    'start.dailyFact': 'Daily Historical Fact',
     // Scoreboard
     'score.round': 'Round',
     'score.score': 'Score',
@@ -191,6 +192,7 @@ export const translations = {
     'start.privacy': 'Politique de Confidentialité',
     'start.terms': 'Conditions d\'Utilisation',
     'start.feedback': 'Commentaires',
+    'start.dailyFact': 'Fait Historique Quotidien',
     // Scoreboard
     'score.round': 'Manche',
     'score.score': 'Score',
@@ -364,6 +366,7 @@ export const translations = {
     'start.privacy': 'プライバシーポリシー',
     'start.terms': '利用規約',
     'start.feedback': 'フィードバック',
+    'start.dailyFact': '今日の歴史的トリビア',
     // Scoreboard
     'score.round': 'ラウンド',
     'score.score': 'スコア',
@@ -537,6 +540,7 @@ export const translations = {
     'start.privacy': 'Política de Privacidad',
     'start.terms': 'Términos de Servicio',
     'start.feedback': 'Comentarios',
+    'start.dailyFact': 'Dato Histórico Diario',
     // Scoreboard
     'score.round': 'Ronda',
     'score.score': 'Puntuación',
@@ -710,6 +714,7 @@ export const translations = {
     'start.privacy': '隐私政策',
     'start.terms': '服务条款',
     'start.feedback': '反馈',
+    'start.dailyFact': '每日历史趣闻',
     // Scoreboard
     'score.round': '回合',
     'score.score': '得分',
@@ -883,6 +888,7 @@ export const translations = {
     'start.privacy': 'سياسة الخصوصية',
     'start.terms': 'شروط الخدمة',
     'start.feedback': 'ملاحظات',
+    'start.dailyFact': 'حقيقة تاريخية يومية',
     // Scoreboard
     'score.round': 'جولة',
     'score.score': 'النتيجة',
@@ -1056,6 +1062,7 @@ export const translations = {
     'start.privacy': 'गोपनीयता नीति',
     'start.terms': 'सेवा की शर्तें',
     'start.feedback': 'प्रतिक्रिया',
+    'start.dailyFact': 'दैनिक ऐतिहासिक तथ्य',
     // Scoreboard
     'score.round': 'राउंड',
     'score.score': 'स्कोर',
