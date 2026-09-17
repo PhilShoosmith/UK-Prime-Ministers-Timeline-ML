@@ -70,6 +70,9 @@ export const translations = {
     'review.noPMs': 'No Prime Ministers found.',
     // HallOfFame
     'hof.title': 'Hall of Fame',
+    'hof.filter.allTime': 'All-Time Greats',
+    'hof.filter.lastMonth': 'Last Month',
+    'hof.filter.lastWeek': 'Last Week',
     'hof.mode.year': 'Year Mode',
     'hof.mode.pm': 'Successor Mode',
     'hof.mode.fact': 'Fact Mode',
@@ -245,6 +248,9 @@ export const translations = {
     'review.noPMs': 'Aucun Premier ministre trouvé.',
     // HallOfFame
     'hof.title': 'Panthéon',
+    'hof.filter.allTime': 'Meilleurs de tous les temps',
+    'hof.filter.lastMonth': 'Tableau du mois dernier',
+    'hof.filter.lastWeek': 'Tableau de la semaine dernière',
     'hof.mode.year': 'Mode Année',
     'hof.mode.pm': 'Mode Successeur',
     'hof.mode.fact': 'Mode Fait',
@@ -420,6 +426,9 @@ export const translations = {
     'review.noPMs': '首相が見つかりません。',
     // HallOfFame
     'hof.title': '殿堂',
+    'hof.filter.allTime': '歴代の偉人テーブル',
+    'hof.filter.lastMonth': '先月のテーブル',
+    'hof.filter.lastWeek': '先週のテーブル',
     'hof.mode.year': '年モード',
     'hof.mode.pm': '後任モード',
     'hof.mode.fact': '事実モード',
@@ -595,6 +604,9 @@ export const translations = {
     'review.noPMs': 'No se encontraron Primeros Ministros.',
     // HallOfFame
     'hof.title': 'Salón de la Fama',
+    'hof.filter.allTime': 'Tabla de los mejores de todos los tiempos',
+    'hof.filter.lastMonth': 'Tabla del mes pasado',
+    'hof.filter.lastWeek': 'Tabla de la semana pasada',
     'hof.mode.year': 'Modo Año',
     'hof.mode.pm': 'Modo Sucesor',
     'hof.mode.fact': 'Modo Hecho',
@@ -770,6 +782,9 @@ export const translations = {
     'review.noPMs': '未找到首相。',
     // HallOfFame
     'hof.title': '名人堂',
+    'hof.filter.allTime': '历史名将榜',
+    'hof.filter.lastMonth': '上个月排行榜',
+    'hof.filter.lastWeek': '上周排行榜',
     'hof.mode.year': '年份模式',
     'hof.mode.pm': '继任者模式',
     'hof.mode.fact': '事实模式',
@@ -945,6 +960,9 @@ export const translations = {
     'review.noPMs': 'لم يتم العثور على رؤساء وزراء.',
     // HallOfFame
     'hof.title': 'لوحة الشرف',
+    'hof.filter.allTime': 'أفضل العظماء على الإطلاق',
+    'hof.filter.lastMonth': 'جدول الشهر الماضي',
+    'hof.filter.lastWeek': 'جدول الأسبوع الماضي',
     'hof.mode.year': 'وضع السنة',
     'hof.mode.pm': 'وضع الخليفة',
     'hof.mode.fact': 'وضع الحقيقة',
@@ -1120,6 +1138,9 @@ export const translations = {
     'review.noPMs': 'कोई प्रधानमंत्री नहीं मिला।',
     // HallOfFame
     'hof.title': 'हॉल ऑफ फेम',
+    'hof.filter.allTime': 'ऑल टाइम ग्रेट्स टेबल',
+    'hof.filter.lastMonth': 'पिछले महीने की टेबल',
+    'hof.filter.lastWeek': 'पिछले सप्ताह की टेबल',
     'hof.mode.year': 'वर्ष मोड',
     'hof.mode.pm': 'उत्तराधिकारी मोड',
     'hof.mode.fact': 'तथ्य मोड',
