@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { db } from './firebaseClient';
 import { collection, getDocs, setDoc, doc, query, orderBy } from 'firebase/firestore';
 import { Leaderboards, GameMode, HallOfFameEntry } from '../types';

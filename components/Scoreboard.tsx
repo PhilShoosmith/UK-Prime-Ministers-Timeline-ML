@@ -1,6 +1,7 @@
 import React from 'react';
 import { ROUND_DURATION_SECONDS } from '../constants';
 import { useLanguage } from '../contexts/LanguageContext';
+import { Volume2, VolumeX } from 'lucide-react';
 
 interface ScoreboardProps {
   score: number;
@@ -9,9 +10,20 @@ interface ScoreboardProps {
   totalRounds: number;
   timeLeft: number;
   isAdmin: boolean;
+  soundEnabled?: boolean;
+  onToggleSound?: () => void;
 }
 
-const Scoreboard: React.FC<ScoreboardProps> = ({ score, incorrect, round, totalRounds, timeLeft, isAdmin }) => {
+const Scoreboard: React.FC<ScoreboardProps> = ({ 
+  score, 
+  incorrect, 
+  round, 
+  totalRounds, 
+  timeLeft, 
+  isAdmin,
+  soundEnabled = true,
+  onToggleSound 
+}) => {
   const { t } = useLanguage();
   const radius = 24;
   const circumference = 2 * Math.PI * radius;
@@ -71,7 +83,7 @@ const Scoreboard: React.FC<ScoreboardProps> = ({ score, incorrect, round, totalR
           </div>
         </div>
 
-        <div className="flex justify-end text-slate-300">
+        <div className="flex justify-end items-center gap-3 sm:gap-4 text-slate-300">
           <div className="flex flex-col items-center">
             <span className="text-[10px] sm:text-xs uppercase tracking-wider text-slate-400">{t('score.round')}</span>
             <div className="flex items-baseline gap-1 mt-1">
@@ -79,6 +91,21 @@ const Scoreboard: React.FC<ScoreboardProps> = ({ score, incorrect, round, totalR
               <span className="text-xs sm:text-sm text-slate-400 font-normal leading-none">/ {totalRounds}</span>
             </div>
           </div>
+          {onToggleSound && (
+            <button
+              onClick={onToggleSound}
+              type="button"
+              className="p-1.5 sm:p-2 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700/80 transition-colors"
+              title={soundEnabled ? t('score.soundMute') : t('score.soundUnmute')}
+              aria-label={soundEnabled ? t('score.soundMute') : t('score.soundUnmute')}
+            >
+              {soundEnabled ? (
+                <Volume2 className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-400" />
+              ) : (
+                <VolumeX className="w-4 h-4 sm:w-5 sm:h-5 text-slate-500" />
+              )}
+            </button>
+          )}
         </div>
       </div>
     </div>

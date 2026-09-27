@@ -133,7 +133,7 @@ const HallOfFame: React.FC<HallOfFameProps> = ({ leaderboards, onBack, initialMo
                       : 'text-slate-400 border border-transparent hover:text-slate-200 hover:bg-slate-800/80'
                   }`}
                 >
-                  {t(`hof.filter.${filter}` as any)}
+                  {filter === 'allTime' ? t('hof.filter.allTime') : filter === 'lastMonth' ? t('hof.filter.lastMonth') : t('hof.filter.lastWeek')}
                 </button>
               ))}
             </div>

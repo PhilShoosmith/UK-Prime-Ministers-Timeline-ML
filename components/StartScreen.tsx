@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { RotateCw } from 'lucide-react';
 import { PrimeMinister, GameMode } from '../types';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -16,33 +16,24 @@ interface StartScreenProps {
 
 const StartScreen: React.FC<StartScreenProps> = ({ onStart, pms, onShowInstructions, onReview, onShowPrivacy, onShowTerms, onShowHallOfFame }) => {
   const { t } = useLanguage();
-  const [dailyFact, setDailyFact] = useState<{ pmName: string; fact: string } | null>(null);
-  const [isRefreshing, setIsRefreshing] = useState(false);
-
-  useEffect(() => {
-    if (pms.length > 0) {
-      // Use current date as seed for "daily" random fact
-      const today = new Date().toDateString();
-      let seed = 0;
-      for (let i = 0; i < today.length; i++) {
-        seed += today.charCodeAt(i);
-      }
-      
-      const randomPmIndex = seed % pms.length;
-      const pm = pms[randomPmIndex];
-      
-      // Extract a single sentence or point from their context
-      let factText = pm.context;
-      const sentences = pm.context.split(/(?<=[.!?])\s+/);
-      if (sentences.length > 1) {
-          // Try to pick an interesting sentence (avoiding first/last if possible)
-          const factIndex = (seed % (sentences.length - 1)) + 1;
-          factText = sentences[factIndex] || sentences[0];
-      }
-      
-      setDailyFact({ pmName: pm.name, fact: factText });
+  const [dailyFact, setDailyFact] = useState<{ pmName: string; fact: string } | null>(() => {
+    if (!pms || pms.length === 0) return null;
+    const today = new Date().toDateString();
+    let seed = 0;
+    for (let i = 0; i < today.length; i++) {
+      seed += today.charCodeAt(i);
     }
-  }, [pms]);
+    const randomPmIndex = seed % pms.length;
+    const pm = pms[randomPmIndex];
+    let factText = pm.context;
+    const sentences = pm.context.split(/(?<=[.!?])\s+/);
+    if (sentences.length > 1) {
+      const factIndex = (seed % (sentences.length - 1)) + 1;
+      factText = sentences[factIndex] || sentences[0];
+    }
+    return { pmName: pm.name, fact: factText };
+  });
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   const handleRefreshFact = () => {
     if (pms.length === 0) return;

@@ -13,8 +13,7 @@ import {
   Calendar, 
   Building2, 
   Award,
-  Sparkles,
-  ChevronRight
+  Sparkles
 } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 
@@ -305,7 +304,7 @@ export const CareerTreeModal: React.FC<CareerTreeModalProps> = ({
             {/* Vertical connecting trunk line */}
             <div className="absolute left-[15px] sm:left-[23px] top-4 bottom-4 w-0.5 bg-gradient-to-b from-emerald-500 via-blue-500 to-yellow-500 opacity-60" />
 
-            {filteredNodes.map((node, index) => {
+            {filteredNodes.map((node) => {
               const config = categoryConfig[node.category] || categoryConfig.parliament;
               const isPM = node.category === 'prime_minister';
 

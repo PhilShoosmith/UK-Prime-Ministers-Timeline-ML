@@ -22,6 +22,7 @@ import HallOfFame from './components/HallOfFame';
 import InstructionsModal from './components/InstructionsModal';
 import CareerTreeModal from './components/CareerTreeModal';
 import { useLanguage } from './contexts/LanguageContext';
+import { soundService } from './services/soundService';
 
 interface GroundingSource {
   uri: string;
@@ -69,11 +70,24 @@ const App: React.FC = () => {
   const timerIdRef = useRef<number | null>(null);
   const [guessFeedback, setGuessFeedback] = useState<{ id?: number | string; isCorrect: boolean } | null>(null);
   const { t, language } = useLanguage();
+  const [soundEnabled, setSoundEnabled] = useState<boolean>(() => soundService.isEnabled());
+
+  const handleToggleSound = useCallback(() => {
+    const next = soundService.toggleSound();
+    setSoundEnabled(next);
+  }, []);
 
   const timeLeftRef = useRef(timeLeft);
   useEffect(() => {
     timeLeftRef.current = timeLeft;
   }, [timeLeft]);
+
+  // Audio cue/music eventuating the 30-second timer progressing to zero
+  useEffect(() => {
+    if (gameState === 'playing' && !guessFeedback && !isAdmin) {
+      soundService.playTimerTick(timeLeft);
+    }
+  }, [timeLeft, gameState, guessFeedback, isAdmin]);
 
   const [leaderboards, setLeaderboards] = useState<Leaderboards>({ year: [], pm: [], fact: [] });
   const [initialHallOfFameMode, setInitialHallOfFameMode] = useState<GameMode | undefined>();
@@ -137,10 +151,17 @@ const App: React.FC = () => {
 
     if (timedOut) {
       clearTimer();
+      soundService.playTimeoutSound();
       setTotalTimeLeft(prev => prev + timeLeftRef.current);
       setLastGuess({ type: 'year', isCorrect: false, guessedYear, correctYear, timedOut });
       setGameState('feedback');
       return;
+    }
+
+    if (isCorrect) {
+      soundService.playCorrectSound();
+    } else {
+      soundService.playIncorrectSound();
     }
 
     setGuessFeedback({ id: 'year', isCorrect });
@@ -170,10 +191,17 @@ const App: React.FC = () => {
 
     if (timedOut) {
       clearTimer();
+      soundService.playTimeoutSound();
       setTotalTimeLeft(prev => prev + timeLeftRef.current);
       setLastGuess({ type: 'pm', isCorrect: false, guessedPMId, correctPMId, timedOut });
       setGameState('feedback');
       return;
+    }
+
+    if (isCorrect) {
+      soundService.playCorrectSound();
+    } else {
+      soundService.playIncorrectSound();
     }
 
     setGuessFeedback({ id: guessedPMId, isCorrect });
@@ -200,10 +228,17 @@ const App: React.FC = () => {
     
     if (timedOut) {
       clearTimer();
+      soundService.playTimeoutSound();
       setTotalTimeLeft(prev => prev + timeLeftRef.current);
       setLastGuess({ type: 'fact', isCorrect: false, guessedPMId, correctPMId, timedOut });
       setGameState('feedback');
       return;
+    }
+
+    if (isCorrect) {
+      soundService.playCorrectSound();
+    } else {
+      soundService.playIncorrectSound();
     }
 
     setGuessFeedback({ id: guessedPMId, isCorrect });
@@ -354,7 +389,16 @@ const App: React.FC = () => {
 
         return (
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-start min-h-screen py-8">
-            <Scoreboard score={score} incorrect={(gameState === 'feedback' ? currentRound + 1 : currentRound) - score} round={currentRound + 1} totalRounds={ROUNDS_PER_GAME} timeLeft={timeLeft} isAdmin={isAdmin} />
+            <Scoreboard 
+              score={score} 
+              incorrect={(gameState === 'feedback' ? currentRound + 1 : currentRound) - score} 
+              round={currentRound + 1} 
+              totalRounds={ROUNDS_PER_GAME} 
+              timeLeft={timeLeft} 
+              isAdmin={isAdmin}
+              soundEnabled={soundEnabled}
+              onToggleSound={handleToggleSound}
+            />
             <div className="mt-16 md:mt-24 w-full flex flex-col lg:flex-row lg:items-start lg:justify-center lg:gap-8">
               {(gameMode !== 'fact' || gameState !== 'playing') && (
                 <div className="w-full max-w-sm mx-auto lg:mx-0 flex-shrink-0 animate-fade-in">

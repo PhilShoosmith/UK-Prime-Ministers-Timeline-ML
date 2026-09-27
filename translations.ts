@@ -24,6 +24,8 @@ export const translations = {
     'score.round': 'Round',
     'score.score': 'Score',
     'score.time': 'Time',
+    'score.soundMute': 'Mute sound effects',
+    'score.soundUnmute': 'Enable sound effects',
     // EndScreen
     'end.title': 'Term Over',
     'end.perfect.title': 'Prime Minister!',
@@ -202,6 +204,8 @@ export const translations = {
     'score.round': 'Manche',
     'score.score': 'Score',
     'score.time': 'Temps',
+    'score.soundMute': 'Couper les effets sonores',
+    'score.soundUnmute': 'Activer les effets sonores',
     // EndScreen
     'end.title': 'Mandat Terminé',
     'end.perfect.title': 'Premier Ministre !',
@@ -380,6 +384,8 @@ export const translations = {
     'score.round': 'ラウンド',
     'score.score': 'スコア',
     'score.time': '時間',
+    'score.soundMute': '効果音をミュート',
+    'score.soundUnmute': '効果音をオン',
     // EndScreen
     'end.title': '任期終了',
     'end.perfect.title': '首相！',
@@ -558,6 +564,8 @@ export const translations = {
     'score.round': 'Ronda',
     'score.score': 'Puntuación',
     'score.time': 'Tiempo',
+    'score.soundMute': 'Silenciar efectos de sonido',
+    'score.soundUnmute': 'Activar efectos de sonido',
     // EndScreen
     'end.title': 'Mandato Terminado',
     'end.perfect.title': '¡Primer Ministro!',
@@ -736,6 +744,8 @@ export const translations = {
     'score.round': '回合',
     'score.score': '得分',
     'score.time': '时间',
+    'score.soundMute': '静音音效',
+    'score.soundUnmute': '开启音效',
     // EndScreen
     'end.title': '任期结束',
     'end.perfect.title': '首相！',
@@ -914,6 +924,8 @@ export const translations = {
     'score.round': 'جولة',
     'score.score': 'النتيجة',
     'score.time': 'الوقت',
+    'score.soundMute': 'كتم المؤثرات الصوتية',
+    'score.soundUnmute': 'تشغيل المؤثرات الصوتية',
     // EndScreen
     'end.title': 'انتهت الفترة',
     'end.perfect.title': 'رئيس الوزراء!',
@@ -1092,6 +1104,8 @@ export const translations = {
     'score.round': 'राउंड',
     'score.score': 'स्कोर',
     'score.time': 'समय',
+    'score.soundMute': 'ध्वनि प्रभाव म्यूट करें',
+    'score.soundUnmute': 'ध्वनि प्रभाव सक्षम करें',
     // EndScreen
     'end.title': 'कार्यकाल समाप्त',
     'end.perfect.title': 'प्रधानमंत्री!',
