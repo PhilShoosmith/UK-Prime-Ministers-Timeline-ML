@@ -96,6 +96,7 @@ export const translations = {
     'inst.general.desc': 'You have a limited time for each round. The faster you answer correctly, the more time you save for the final leaderboard!',
     'inst.proTip': 'Pro Tip:',
     'inst.proTipDesc': 'Speed matters! Your total time left across all 10 rounds serves as a tie-breaker in the global Hall of Fame.',
+    'inst.videoTitle': 'Video Walkthrough',
     'inst.gotIt': 'Got it!',
     'inst.close': 'Close',
     // RAGModal
@@ -276,6 +277,7 @@ export const translations = {
     'inst.general.desc': 'Vous avez un temps limité pour chaque manche. Plus vous répondez vite et juste, plus vous gagnez de temps pour le classement final !',
     'inst.proTip': 'Astuce Pro :',
     'inst.proTipDesc': 'La vitesse compte ! Votre temps total restant sur les 10 manches sert à départager les égalités dans le Hall of Fame mondial.',
+    'inst.videoTitle': 'Démonstration vidéo',
     'inst.gotIt': 'J\'ai compris !',
     'inst.close': 'Fermer',
     // RAGModal
@@ -456,6 +458,7 @@ export const translations = {
     'inst.general.desc': '各ラウンドには制限時間があります。早く正解するほど、最終的なリーダーボードのために多くの時間を節約できます！',
     'inst.proTip': 'プロのヒント：',
     'inst.proTipDesc': 'スピードが重要です！全10ラウンドの合計残り時間は、世界の殿堂での同点決勝として機能します。',
+    'inst.videoTitle': '動画チュートリアル',
     'inst.gotIt': 'わかりました！',
     'inst.close': '閉じる',
     // RAGModal
@@ -636,6 +639,7 @@ export const translations = {
     'inst.general.desc': 'Tienes un tiempo limitado para cada ronda. ¡Cuanto más rápido respondas correctamente, más tiempo ahorrarás para la tabla de clasificación final!',
     'inst.proTip': 'Consejo Profesional:',
     'inst.proTipDesc': '¡La velocidad importa! Tu tiempo total restante en las 10 rondas sirve como desempate en el Salón de la Fama global.',
+    'inst.videoTitle': 'Guía en video',
     'inst.gotIt': '¡Entendido!',
     'inst.close': 'Cerrar',
     // RAGModal
@@ -816,6 +820,7 @@ export const translations = {
     'inst.general.desc': '每回合时间有限。你越快回答正确，就能为最终排行榜节省越多的时间！',
     'inst.proTip': '专业提示：',
     'inst.proTipDesc': '速度很重要！你在10个回合中的总剩余时间将作为全球名人堂的决胜条件。',
+    'inst.videoTitle': '视频演示',
     'inst.gotIt': '明白了！',
     'inst.close': '关闭',
     // RAGModal
@@ -996,6 +1001,7 @@ export const translations = {
     'inst.general.desc': 'لديك وقت محدود لكل جولة. كلما أجبت بشكل صحيح أسرع، وفرت وقتًا أكثر للوحة المتصدرين النهائية!',
     'inst.proTip': 'نصيحة احترافية:',
     'inst.proTipDesc': 'السرعة مهمة! إجمالي وقتك المتبقي عبر الجولات العشر يعمل كفاصل تعادل في لوحة الشرف العالمية.',
+    'inst.videoTitle': 'شرح بالفيديو',
     'inst.gotIt': 'فهمت!',
     'inst.close': 'إغلاق',
     // RAGModal
@@ -1176,6 +1182,7 @@ export const translations = {
     'inst.general.desc': 'प्रत्येक राउंड के लिए आपके पास सीमित समय है। आप जितनी जल्दी सही उत्तर देंगे, अंतिम लीडरबोर्ड के लिए उतना ही अधिक समय बचाएंगे!',
     'inst.proTip': 'प्रो टिप:',
     'inst.proTipDesc': 'गति मायने रखती है! 10 राउंड में आपका कुल बचा हुआ समय वैश्विक हॉल ऑफ फेम में टाई-ब्रेकर के रूप में कार्य करता है।',
+    'inst.videoTitle': 'वीडियो ट्यूटोरियल',
     'inst.gotIt': 'समझ गया!',
     'inst.close': 'बंद करें',
     // RAGModal
