@@ -9,6 +9,12 @@ export default defineConfig(() => {
         host: '0.0.0.0',
       },
       plugins: [react()],
+      define: {
+        'process.env.GEMINI_API_KEY': JSON.stringify(process.env.GEMINI_API_KEY || process.env.VITE_GEMINI_API_KEY || 'AIzaSyDGxo8qmOmG9KhfYqbxDkpOBKloUTdhHeE'),
+        'import.meta.env.VITE_GEMINI_API_KEY': JSON.stringify(
+          process.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY || 'AIzaSyDGxo8qmOmG9KhfYqbxDkpOBKloUTdhHeE'
+        )
+      },
       resolve: {
         alias: {
           '@': path.resolve(__dirname, '.'),

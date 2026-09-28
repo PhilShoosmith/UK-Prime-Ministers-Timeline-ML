@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { RotateCw } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { RotateCw, Volume2, VolumeX } from 'lucide-react';
 import { PrimeMinister, GameMode } from '../types';
 import { useLanguage } from '../contexts/LanguageContext';
 import LanguageDropdown from './LanguageDropdown';
@@ -34,6 +34,92 @@ const StartScreen: React.FC<StartScreenProps> = ({ onStart, pms, onShowInstructi
     return { pmName: pm.name, fact: factText };
   });
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [isPlaying, setIsPlaying] = useState<boolean>(false);
+
+  useEffect(() => {
+    let isMounted = true;
+    const savedPreference = localStorage.getItem('ukpm_bgm_enabled');
+    const shouldPlay = savedPreference !== 'false';
+
+    const audio = new Audio('/audio/pachelbel-canon.mp3');
+    audio.loop = true;
+    audio.volume = 0.35;
+    audioRef.current = audio;
+
+    if (shouldPlay) {
+      const playPromise = audio.play();
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => {
+            if (isMounted) setIsPlaying(true);
+          })
+          .catch(() => {
+            if (isMounted) setIsPlaying(false);
+          });
+      }
+
+      // Autoplay unlock fallback on first user interaction anywhere
+      const handleFirstInteraction = () => {
+        if (audioRef.current && audioRef.current.paused) {
+          const currentPref = localStorage.getItem('ukpm_bgm_enabled');
+          if (currentPref !== 'false') {
+            audioRef.current.play()
+              .then(() => {
+                if (isMounted) setIsPlaying(true);
+              })
+              .catch(() => {});
+          }
+        }
+        window.removeEventListener('pointerdown', handleFirstInteraction);
+        window.removeEventListener('keydown', handleFirstInteraction);
+      };
+
+      window.addEventListener('pointerdown', handleFirstInteraction, { once: true });
+      window.addEventListener('keydown', handleFirstInteraction, { once: true });
+
+      return () => {
+        isMounted = false;
+        window.removeEventListener('pointerdown', handleFirstInteraction);
+        window.removeEventListener('keydown', handleFirstInteraction);
+        if (audioRef.current) {
+          audioRef.current.pause();
+          audioRef.current.src = '';
+          audioRef.current = null;
+        }
+      };
+    }
+
+    return () => {
+      isMounted = false;
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.src = '';
+        audioRef.current = null;
+      }
+    };
+  }, []);
+
+  const toggleAudio = () => {
+    if (!audioRef.current) {
+      const audio = new Audio('/audio/pachelbel-canon.mp3');
+      audio.loop = true;
+      audio.volume = 0.35;
+      audioRef.current = audio;
+    }
+    if (isPlaying) {
+      audioRef.current.pause();
+      setIsPlaying(false);
+      localStorage.setItem('ukpm_bgm_enabled', 'false');
+    } else {
+      audioRef.current.play()
+        .then(() => {
+          setIsPlaying(true);
+          localStorage.setItem('ukpm_bgm_enabled', 'true');
+        })
+        .catch(() => {});
+    }
+  };
 
   const handleRefreshFact = () => {
     if (pms.length === 0) return;
@@ -69,8 +155,35 @@ const StartScreen: React.FC<StartScreenProps> = ({ onStart, pms, onShowInstructi
 
   return (
     <div className="w-full min-h-screen flex flex-col items-center relative overflow-y-auto overflow-x-hidden px-4">
-      {/* Background Portrait Carousel */}
-      <div className="absolute top-6 right-6 z-50">
+      {/* Top Left: Music Off/On Toggle */}
+      <div className="absolute top-4 left-4 sm:top-6 sm:left-6 z-50">
+        <button
+          onClick={toggleAudio}
+          type="button"
+          className="px-2.5 py-2 sm:px-3 sm:py-2 bg-slate-800/85 hover:bg-slate-700 text-slate-300 hover:text-white rounded-xl transition-all border border-slate-700 backdrop-blur-md shadow-md flex items-center gap-2 group focus:outline-none focus:ring-2 focus:ring-blue-500/50 whitespace-nowrap"
+          title={isPlaying ? `${t('start.musicMute')} (Pachelbel - Canon)` : `${t('start.musicPlay')} (Pachelbel - Canon)`}
+          aria-label={isPlaying ? `${t('start.musicMute')} - Pachelbel - Canon` : `${t('start.musicPlay')} - Pachelbel - Canon`}
+        >
+          {isPlaying ? (
+            <>
+              <Volume2 className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-400 group-hover:scale-110 transition-transform" />
+              <span className="text-xs font-medium text-emerald-400">
+                Pachelbel - Canon
+              </span>
+            </>
+          ) : (
+            <>
+              <VolumeX className="w-4 h-4 sm:w-5 sm:h-5 text-slate-400 group-hover:scale-110 transition-transform" />
+              <span className="text-xs font-medium text-slate-400">
+                Pachelbel - Canon
+              </span>
+            </>
+          )}
+        </button>
+      </div>
+
+      {/* Top Right: Language Selection */}
+      <div className="absolute top-4 right-4 sm:top-6 sm:right-6 z-50">
         <LanguageDropdown />
       </div>
       <div className="fixed inset-0 flex items-center opacity-20 scale-110 blur-sm pointer-events-none">

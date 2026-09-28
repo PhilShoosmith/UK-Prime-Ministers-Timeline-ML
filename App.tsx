@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, useCallback, useEffect, useRef, useMemo } from 'react';
 import { PrimeMinister, GameState, AnyLastGuess, GameMode, Leaderboards, HallOfFameEntry } from './types';
 import { getGamePrimeMinisters, allPrimeMinisters, getSuccessorPrimeMinisters } from './services/gameService';
@@ -318,8 +317,7 @@ const App: React.FC = () => {
     setRagSources([]);
 
     try {
-      const apiKey = import.meta.env.VITE_GEMINI_API_KEY || '';
-      const ai = new GoogleGenAI({ apiKey });
+      const apiKey = import.meta.env.VITE_GEMINI_API_KEY || (typeof process !== 'undefined' ? process.env?.GEMINI_API_KEY : '') || '';
       let prompt = `Tell me a brief history about ${pm.name}. Focus on their rise, key events, and legacy. Concise 3-4 paragraphs.`;
       if (language === 'fr') {
         prompt = `Raconte-moi une brève histoire sur ${pm.name}. Concentre-toi sur son ascension, les événements clés et son héritage. 3-4 paragraphes concis.`;
@@ -334,23 +332,46 @@ const App: React.FC = () => {
       } else if (language === 'hi') {
         prompt = `मुझे ${pm.name} के बारे में एक संक्षिप्त इतिहास बताएं। उनके उदय, प्रमुख घटनाओं और विरासत पर ध्यान दें। 3-4 संक्षिप्त पैराग्राफ।`;
       }
-      const response = await ai.models.generateContent({
-        model: "gemini-3-flash-preview",
-        contents: prompt,
-        config: { tools: [{googleSearch: {}}] },
-      });
 
-      setRagContent({ title: pm.name, text: response.text, imageUrl: pm.imageUrl });
-      const sources = (response.candidates?.[0]?.groundingMetadata?.groundingChunks as unknown[] || [])
-        .map((chunk: any) => chunk.web).filter(web => !!(web?.uri && web.title));
-      setRagSources(Array.from(new Map(sources.map((s: any) => [s.uri, s])).values()) as any);
+      let textOutput = '';
+      if (apiKey) {
+        try {
+          const ai = new GoogleGenAI({ apiKey });
+          const response = await ai.models.generateContent({
+            model: "gemini-3.8-flash",
+            contents: prompt,
+          });
+          textOutput = response.text || '';
+        } catch (primaryErr) {
+          console.warn("Primary gemini-3.8-flash error, trying fallback model:", primaryErr);
+          try {
+            const ai = new GoogleGenAI({ apiKey });
+            const fallbackResponse = await ai.models.generateContent({
+              model: "gemini-2.5-flash",
+              contents: prompt,
+            });
+            textOutput = fallbackResponse.text || '';
+          } catch (secondaryErr) {
+            console.warn("Secondary model also failed:", secondaryErr);
+          }
+        }
+      }
+
+      if (textOutput) {
+        setRagContent({ title: pm.name, text: textOutput, imageUrl: pm.imageUrl });
+      } else {
+        // Fallback to rich historical context from database/local records
+        const fallbackDetails = `${pm.context}\n\nTerm: ${pm.termStart} – ${pm.termEnd}\nParty: ${pm.party}`;
+        setRagContent({ title: pm.name, text: fallbackDetails, imageUrl: pm.imageUrl });
+      }
     } catch (error) {
-      console.error(error);
-      setRagContent({ title: pm.name, text: t('rag.error'), imageUrl: pm.imageUrl });
+      console.error("Learn more error:", error);
+      const fallbackDetails = `${pm.context}\n\nTerm: ${pm.termStart} – ${pm.termEnd}\nParty: ${pm.party}`;
+      setRagContent({ title: pm.name, text: fallbackDetails, imageUrl: pm.imageUrl });
     } finally {
       setIsRagLoading(false);
     }
-  }, [language, t]);
+  }, [language]);
 
   const renderGameScreen = () => {
     switch (gameState) {
