@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { PrimeMinister } from '../types';
 import { useLanguage } from '../contexts/LanguageContext';
-import { Crown } from 'lucide-react';
+import { Crown, BookOpen } from 'lucide-react';
 
 interface ReviewCardProps {
   primeMinister: PrimeMinister;
@@ -90,18 +90,30 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ primeMinister, onLearnMore, onS
           </div>
         )}
 
-        <div className="mt-2 pt-2 border-t border-slate-700/60 flex-shrink-0">
+        <div className="mt-2 pt-2 border-t border-slate-700/60 flex-shrink-0 flex items-center gap-1.5">
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              onLearnMore(primeMinister);
+            }}
+            className="flex-1 py-1.5 px-2 bg-blue-600/25 hover:bg-blue-600/40 text-blue-300 border border-blue-500/40 hover:border-blue-400 rounded-lg text-xs font-semibold flex items-center justify-center gap-1 transition-all"
+            title={`View detailed history of ${name}`}
+          >
+            <BookOpen className="w-3.5 h-3.5 text-blue-400" />
+            <span>{t('rag.title')}</span>
+          </button>
           <button
             type="button"
             onClick={(e) => {
               e.stopPropagation();
               onShowCareerTree?.(primeMinister);
             }}
-            className="w-full py-1.5 px-3 bg-gradient-to-r from-amber-600/20 to-yellow-600/20 hover:from-amber-600/40 hover:to-yellow-600/40 text-amber-300 border border-amber-500/40 hover:border-amber-400 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition-all shadow-sm"
+            className="flex-1 py-1.5 px-2 bg-gradient-to-r from-amber-600/20 to-yellow-600/20 hover:from-amber-600/40 hover:to-yellow-600/40 text-amber-300 border border-amber-500/40 hover:border-amber-400 rounded-lg text-xs font-semibold flex items-center justify-center gap-1 transition-all shadow-sm"
             title={`View career tree and key roles for ${name}`}
           >
             <Crown className="w-3.5 h-3.5 text-amber-400" />
-            <span>Career Tree</span>
+            <span>Career</span>
           </button>
         </div>
       </div>

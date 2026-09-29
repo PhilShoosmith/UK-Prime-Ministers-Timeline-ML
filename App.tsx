@@ -9,7 +9,7 @@ import PrimeMinisterCard from './components/PrimeMinisterCard';
 import Timeline from './components/Timeline';
 import Feedback from './components/Feedback';
 import EndScreen from './components/EndScreen';
-import { GoogleGenAI } from '@google/genai';
+import { getDetailedPMInfo, DetailedPMContent } from './services/detailedInfoService';
 import RAGModal from './components/RAGModal';
 import Confetti from './components/Confetti';
 import NextPMGuesser from './components/NextPMGuesser';
@@ -94,7 +94,8 @@ const App: React.FC = () => {
   const [showConfetti, setShowConfetti] = useState<boolean>(false);
   
   const [isRagModalOpen, setIsRagModalOpen] = useState<boolean>(false);
-  const [ragContent, setRagContent] = useState<{ title: string; text: string; imageUrl?: string; } | null>(null);
+  const [ragContent, setRagContent] = useState<DetailedPMContent | null>(null);
+  const [selectedDetailedPM, setSelectedDetailedPM] = useState<PrimeMinister | null>(null);
   const [ragSources, setRagSources] = useState<GroundingSource[]>([]);
   const [isRagLoading, setIsRagLoading] = useState<boolean>(false);
 
@@ -310,67 +311,13 @@ const App: React.FC = () => {
     }
   }, [currentRound]);
 
-  const handleLearnMore = useCallback(async (pm: PrimeMinister) => {
+  const handleLearnMore = useCallback((pm: PrimeMinister) => {
+    setSelectedDetailedPM(pm);
     setIsRagModalOpen(true);
-    setIsRagLoading(true);
-    setRagContent({ title: pm.name, text: '', imageUrl: pm.imageUrl });
+    setIsRagLoading(false);
     setRagSources([]);
-
-    try {
-      const apiKey = import.meta.env.VITE_GEMINI_API_KEY || (typeof process !== 'undefined' ? process.env?.GEMINI_API_KEY : '') || '';
-      let prompt = `Tell me a brief history about ${pm.name}. Focus on their rise, key events, and legacy. Concise 3-4 paragraphs.`;
-      if (language === 'fr') {
-        prompt = `Raconte-moi une brève histoire sur ${pm.name}. Concentre-toi sur son ascension, les événements clés et son héritage. 3-4 paragraphes concis.`;
-      } else if (language === 'ja') {
-        prompt = `${pm.name}の短い歴史を教えてください。彼らの台頭、主要な出来事、そして遺産に焦点を当ててください。簡潔な3〜4段落で。`;
-      } else if (language === 'es') {
-        prompt = `Cuéntame una breve historia sobre ${pm.name}. Concéntrate en su ascenso, eventos clave y legado. 3-4 párrafos concisos.`;
-      } else if (language === 'zh') {
-        prompt = `请告诉我关于 ${pm.name} 的简短历史。重点关注他们的崛起、关键事件和遗产。简明扼要的3-4段。`;
-      } else if (language === 'ar') {
-        prompt = `أخبرني بتاريخ موجز عن ${pm.name}. ركز على صعودهم والأحداث الرئيسية وإرثهم. 3-4 فقرات موجزة.`;
-      } else if (language === 'hi') {
-        prompt = `मुझे ${pm.name} के बारे में एक संक्षिप्त इतिहास बताएं। उनके उदय, प्रमुख घटनाओं और विरासत पर ध्यान दें। 3-4 संक्षिप्त पैराग्राफ।`;
-      }
-
-      let textOutput = '';
-      if (apiKey) {
-        try {
-          const ai = new GoogleGenAI({ apiKey });
-          const response = await ai.models.generateContent({
-            model: "gemini-3.8-flash",
-            contents: prompt,
-          });
-          textOutput = response.text || '';
-        } catch (primaryErr) {
-          console.warn("Primary gemini-3.8-flash error, trying fallback model:", primaryErr);
-          try {
-            const ai = new GoogleGenAI({ apiKey });
-            const fallbackResponse = await ai.models.generateContent({
-              model: "gemini-2.5-flash",
-              contents: prompt,
-            });
-            textOutput = fallbackResponse.text || '';
-          } catch (secondaryErr) {
-            console.warn("Secondary model also failed:", secondaryErr);
-          }
-        }
-      }
-
-      if (textOutput) {
-        setRagContent({ title: pm.name, text: textOutput, imageUrl: pm.imageUrl });
-      } else {
-        // Fallback to rich historical context from database/local records
-        const fallbackDetails = `${pm.context}\n\nTerm: ${pm.termStart} – ${pm.termEnd}\nParty: ${pm.party}`;
-        setRagContent({ title: pm.name, text: fallbackDetails, imageUrl: pm.imageUrl });
-      }
-    } catch (error) {
-      console.error("Learn more error:", error);
-      const fallbackDetails = `${pm.context}\n\nTerm: ${pm.termStart} – ${pm.termEnd}\nParty: ${pm.party}`;
-      setRagContent({ title: pm.name, text: fallbackDetails, imageUrl: pm.imageUrl });
-    } finally {
-      setIsRagLoading(false);
-    }
+    const details = getDetailedPMInfo(pm, language);
+    setRagContent(details);
   }, [language]);
 
   const renderGameScreen = () => {
@@ -423,7 +370,7 @@ const App: React.FC = () => {
             <div className="mt-16 md:mt-24 w-full flex flex-col lg:flex-row lg:items-start lg:justify-center lg:gap-8">
               {(gameMode !== 'fact' || gameState !== 'playing') && (
                 <div className="w-full max-w-sm mx-auto lg:mx-0 flex-shrink-0 animate-fade-in">
-                  <PrimeMinisterCard primeMinister={currentPM} showTerm={gameState === 'feedback' || isAdmin} isAdmin={isAdmin} onShowCareerTree={handleShowCareerTree} />
+                  <PrimeMinisterCard primeMinister={currentPM} showTerm={gameState === 'feedback' || isAdmin} isAdmin={isAdmin} onShowCareerTree={handleShowCareerTree} onLearnMore={handleLearnMore} />
                 </div>
               )}
 
@@ -466,8 +413,18 @@ const App: React.FC = () => {
       <DynamicBackground era={gameState === 'start' || gameState === 'end' ? null : currentEra} />
       {showConfetti && <Confetti />}
       {renderGameScreen()}
-      <RAGModal isOpen={isRagModalOpen} isLoading={isRagLoading} content={ragContent} sources={ragSources} onClose={() => setIsRagModalOpen(false)} />
       <InstructionsModal isOpen={isInstructionsOpen} onClose={() => setIsInstructionsOpen(false)} />
+      <RAGModal 
+        isOpen={isRagModalOpen} 
+        isLoading={isRagLoading} 
+        content={ragContent} 
+        sources={ragSources} 
+        onClose={() => setIsRagModalOpen(false)} 
+        onOpenCareerTree={selectedDetailedPM ? () => {
+          setIsRagModalOpen(false);
+          setSelectedCareerPM(selectedDetailedPM);
+        } : undefined}
+      />
       {selectedCareerPM && (
         <CareerTreeModal 
           primeMinister={selectedCareerPM} 

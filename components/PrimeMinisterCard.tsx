@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import { PrimeMinister } from '../types';
 import CoatOfArms from './CoatOfArms';
 import { useLanguage } from '../contexts/LanguageContext';
-import { Crown } from 'lucide-react';
+import { Crown, BookOpen } from 'lucide-react';
 
 interface PrimeMinisterCardProps {
   primeMinister: PrimeMinister;
@@ -11,6 +11,7 @@ interface PrimeMinisterCardProps {
   onPortraitUpload?: (pmId: number, newImageUrl: string) => void;
   stagedPortraitUrl?: string;
   onShowCareerTree?: (pm: PrimeMinister) => void;
+  onLearnMore?: (pm: PrimeMinister) => void;
 }
 
 const getPartyStyles = (party: string): { badge: string; cardHover: string; } => {
@@ -30,7 +31,7 @@ const getPartyStyles = (party: string): { badge: string; cardHover: string; } =>
   return { badge: 'bg-slate-700 text-slate-300', cardHover: 'hover:border-slate-600' };
 };
 
-const PrimeMinisterCard: React.FC<PrimeMinisterCardProps> = ({ primeMinister, showTerm, isAdmin, onPortraitUpload, stagedPortraitUrl, onShowCareerTree }) => {
+const PrimeMinisterCard: React.FC<PrimeMinisterCardProps> = ({ primeMinister, showTerm, isAdmin, onPortraitUpload, stagedPortraitUrl, onShowCareerTree, onLearnMore }) => {
   const { t } = useLanguage();
   const portraitFileInputRef = useRef<HTMLInputElement>(null);
 
@@ -77,10 +78,15 @@ const PrimeMinisterCard: React.FC<PrimeMinisterCardProps> = ({ primeMinister, sh
   }
   
   return (
-    <div className={`bg-slate-800 rounded-2xl shadow-2xl p-6 border border-slate-700 flex flex-col items-center w-full max-w-sm transform transition-all duration-500 hover:scale-105 ${styles.cardHover}`}>
+    <div 
+      onClick={() => onLearnMore?.(primeMinister)}
+      className={`bg-slate-800 rounded-2xl shadow-2xl p-6 border border-slate-700 flex flex-col items-center w-full max-w-sm transform transition-all duration-500 hover:scale-105 ${styles.cardHover} ${onLearnMore ? 'cursor-pointer group' : ''}`}
+      role={onLearnMore ? "button" : undefined}
+      aria-label={onLearnMore ? `View detailed history of ${name}` : undefined}
+    >
       <div className="bg-gradient-to-br from-gray-700 via-gray-800 to-black p-2 rounded-lg shadow-lg mb-4 w-full">
         <div 
-          className="relative aspect-[3/4] w-full rounded-md overflow-hidden bg-slate-700 flex items-center justify-center group shadow-inner"
+          className="relative aspect-[3/4] w-full rounded-md overflow-hidden bg-slate-700 flex items-center justify-center shadow-inner"
         >
           {displayImageUrl ? (
             <img 
@@ -136,20 +142,36 @@ const PrimeMinisterCard: React.FC<PrimeMinisterCardProps> = ({ primeMinister, sh
           <p className="text-md text-amber-300/80 mt-2 font-mono text-center">
             {termStart} – {termEndDisplay} {durationDisplay}
           </p>
-          {onShowCareerTree && (
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                onShowCareerTree(primeMinister);
-              }}
-              className="mt-3 px-3 py-1.5 bg-gradient-to-r from-amber-600/20 to-yellow-600/20 hover:from-amber-600/40 hover:to-yellow-600/40 text-amber-300 border border-amber-500/40 hover:border-amber-400 rounded-full text-xs font-semibold flex items-center gap-1.5 transition-all shadow-sm"
-              title={`View career tree and key roles for ${name}`}
-            >
-              <Crown className="w-3.5 h-3.5 text-amber-400" />
-              <span>Career Tree</span>
-            </button>
-          )}
+          <div className="mt-3 flex items-center justify-center gap-2 flex-wrap">
+            {onLearnMore && (
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onLearnMore(primeMinister);
+                }}
+                className="px-3 py-1.5 bg-blue-600/30 hover:bg-blue-600/50 text-blue-300 border border-blue-500/40 rounded-full text-xs font-semibold flex items-center gap-1.5 transition-all shadow-sm"
+                title={`View detailed history of ${name}`}
+              >
+                <BookOpen className="w-3.5 h-3.5 text-blue-400" />
+                <span>{t('rag.title')}</span>
+              </button>
+            )}
+            {onShowCareerTree && (
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onShowCareerTree(primeMinister);
+                }}
+                className="px-3 py-1.5 bg-gradient-to-r from-amber-600/20 to-yellow-600/20 hover:from-amber-600/40 hover:to-yellow-600/40 text-amber-300 border border-amber-500/40 hover:border-amber-400 rounded-full text-xs font-semibold flex items-center gap-1.5 transition-all shadow-sm"
+                title={`View career tree and key roles for ${name}`}
+              >
+                <Crown className="w-3.5 h-3.5 text-amber-400" />
+                <span>Career Tree</span>
+              </button>
+            )}
+          </div>
         </>
       )}
 
