@@ -1,13 +1,13 @@
 import React from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
-import { Crown, GraduationCap, Milestone, Calendar } from 'lucide-react';
-import { DetailedPMContent } from '../services/detailedInfoService';
+import { Crown, GraduationCap, Milestone, Calendar, BookOpen, ExternalLink } from 'lucide-react';
+import { DetailedPMContent, GroundingSource } from '../services/detailedInfoService';
 
 interface RAGModalProps {
   isOpen: boolean;
   isLoading: boolean;
   content: DetailedPMContent | { title: string; text: string; imageUrl?: string } | null;
-  sources?: { uri: string; title: string }[];
+  sources?: GroundingSource[] | { uri: string; title: string }[];
   onClose: () => void;
   onOpenCareerTree?: () => void;
 }
@@ -29,6 +29,10 @@ const RAGModal: React.FC<RAGModalProps> = ({ isOpen, isLoading, content, sources
 
   const isDetailed = content && 'eraName' in content;
   const detailed = isDetailed ? (content as DetailedPMContent) : null;
+  const allSources: (GroundingSource | { uri: string; title: string })[] = 
+    (detailed?.sources && detailed.sources.length > 0)
+      ? detailed.sources
+      : (sources && sources.length > 0 ? sources : []);
 
   return (
     <div 
@@ -181,25 +185,67 @@ const RAGModal: React.FC<RAGModalProps> = ({ isOpen, isLoading, content, sources
                 </div>
               )}
 
-              {/* Sources */}
-              {sources.length > 0 && (
-                <div className="pt-3 border-t border-slate-700">
-                  <h3 className="text-xs font-semibold text-slate-400 mb-1.5">{t('rag.sources')}</h3>
-                  <ul className="list-disc list-inside space-y-1 text-xs">
-                    {sources.map((source, index) => (
-                      <li key={index} className="truncate">
-                        <a 
-                          href={source.uri} 
-                          target="_blank" 
-                          rel="noopener noreferrer" 
-                          className="text-blue-400 hover:underline"
-                          title={source.title}
+              {/* All Sources of Information at the Bottom of the Screen */}
+              {allSources.length > 0 && (
+                <div className="pt-5 mt-6 border-t border-slate-700/80">
+                  <div className="flex items-center justify-between gap-2 mb-3">
+                    <h3 className="text-xs sm:text-sm font-bold text-slate-200 flex items-center gap-2 uppercase tracking-wider">
+                      <BookOpen className="w-4 h-4 text-blue-400" />
+                      <span>{t('rag.sources') || 'Sources of Information'}</span>
+                      <span className="text-xs font-mono font-normal px-2 py-0.5 rounded-full bg-slate-700/70 text-blue-300 border border-slate-600">
+                        {allSources.length} sources
+                      </span>
+                    </h3>
+                    <span className="text-[11px] text-slate-400 hidden sm:inline">
+                      Official archives & verified historical records
+                    </span>
+                  </div>
+
+                  <div className="space-y-2">
+                    {allSources.map((source, index) => {
+                      const hostname = (() => {
+                        try {
+                          return new URL(source.uri).hostname.replace('www.', '');
+                        } catch {
+                          return ('publisher' in source && source.publisher) || 'archive';
+                        }
+                      })();
+
+                      const category = 'category' in source && source.category ? source.category : 'Historical Record';
+
+                      return (
+                        <a
+                          key={index}
+                          href={source.uri}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center justify-between gap-3 p-3 rounded-xl bg-slate-900/70 hover:bg-slate-750/70 border border-slate-700/70 hover:border-blue-500/60 hover:shadow-md transition-all text-xs group"
+                          title={`Open ${source.title} in a new tab`}
                         >
-                          {source.title || new URL(source.uri).hostname}
+                          <div className="flex items-center gap-3 min-w-0">
+                            <span className="w-6 h-6 rounded-lg bg-blue-500/10 text-blue-400 border border-blue-500/30 flex items-center justify-center flex-shrink-0 font-mono text-xs font-bold group-hover:bg-blue-500/20 transition-colors">
+                              {index + 1}
+                            </span>
+                            <div className="min-w-0">
+                              <span className="text-slate-200 font-semibold group-hover:text-blue-300 transition-colors block truncate text-xs sm:text-sm">
+                                {source.title}
+                              </span>
+                              <span className="text-[11px] text-slate-400 block truncate">
+                                {category}
+                              </span>
+                            </div>
+                          </div>
+
+                          <div className="flex items-center gap-2 flex-shrink-0">
+                            <span className="px-2 py-0.5 bg-slate-800 text-slate-300 border border-slate-700 rounded text-[10px] sm:text-xs font-mono group-hover:border-slate-500 group-hover:text-white transition-colors">
+                              {hostname}
+                            </span>
+                            <ExternalLink className="w-4 h-4 text-slate-400 group-hover:text-blue-400 transition-colors" />
+                          </div>
                         </a>
-                      </li>
-                    ))}
-                  </ul>
+                      );
+                    })}
+                  </div>
                 </div>
               )}
             </>

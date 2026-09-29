@@ -2,6 +2,13 @@ import { PrimeMinister } from '../types';
 import { pmCareerTrees } from '../data/pmCareerTrees';
 import { POLITICAL_ERAS } from '../constants';
 
+export interface GroundingSource {
+  title: string;
+  uri: string;
+  publisher?: string;
+  category?: string;
+}
+
 export interface DetailedPMContent {
   title: string;
   imageUrl?: string;
@@ -22,6 +29,85 @@ export interface DetailedPMContent {
     highestPriorOffice?: string;
   };
   careerHighlights: { role: string; years: string; description: string }[];
+  sources: GroundingSource[];
+}
+
+export function getSourcesForPM(pm: PrimeMinister): GroundingSource[] {
+  const encodedName = encodeURIComponent(pm.name.replace(/ /g, '_'));
+
+  const govSlugMap: Record<number, string> = {
+    1: 'robert-walpole',
+    2: 'william-pitt-1st-earl-of-chatham',
+    3: 'frederick-north',
+    4: 'william-pitt-the-younger',
+    5: 'spencer-perceval',
+    6: 'robert-banks-jenkinson-2nd-earl-of-liverpool',
+    7: 'arthur-wellesley-1st-duke-of-wellington',
+    8: 'charles-grey-2nd-earl-grey',
+    9: 'robert-peel',
+    10: 'william-lamb-2nd-viscount-melbourne',
+    11: 'henry-john-temple-3rd-viscount-palmerston',
+    12: 'benjamin-disraeli-earl-of-beaconsfield',
+    13: 'william-ewart-gladstone',
+    14: 'robert-gascoyne-cecil-3rd-marquess-of-salisbury',
+    15: 'herbert-henry-asquith',
+    16: 'david-lloyd-george',
+    17: 'neville-chamberlain',
+    18: 'winston-churchill',
+    19: 'clement-attlee',
+    20: 'harold-macmillan',
+    21: 'harold-wilson',
+    22: 'edward-heath',
+    23: 'james-callaghan',
+    24: 'margaret-thatcher',
+    25: 'john-major',
+    26: 'tony-blair',
+    27: 'gordon-brown',
+    28: 'david-cameron',
+    29: 'theresa-may',
+    30: 'boris-johnson',
+    31: 'liz-truss',
+    32: 'rishi-sunak',
+    33: 'keir-starmer',
+  };
+
+  const govSlug = govSlugMap[pm.id];
+  const govUrl = govSlug
+    ? `https://www.gov.uk/government/history/past-prime-ministers/${govSlug}`
+    : 'https://www.gov.uk/government/history/past-prime-ministers';
+
+  return [
+    {
+      title: `GOV.UK Past Prime Ministers: ${pm.name}`,
+      uri: govUrl,
+      publisher: 'gov.uk',
+      category: 'Official Government Archive',
+    },
+    {
+      title: `UK Parliament Living Heritage: Prime Ministers and Politics`,
+      uri: 'https://www.parliament.uk/about/living-heritage/building/palace/parliament-commons/prime-ministers/',
+      publisher: 'parliament.uk',
+      category: 'Parliamentary Archives',
+    },
+    {
+      title: `Encyclopaedia Britannica: ${pm.name}`,
+      uri: `https://www.britannica.com/search?query=${encodeURIComponent(pm.name)}`,
+      publisher: 'britannica.com',
+      category: 'Historical Reference Encyclopedia',
+    },
+    {
+      title: `Wikipedia: ${pm.name}`,
+      uri: `https://en.wikipedia.org/wiki/${encodedName}`,
+      publisher: 'wikipedia.org',
+      category: 'Biographical & Career Record',
+    },
+    {
+      title: `National Portrait Gallery: Portraits of ${pm.name}`,
+      uri: `https://www.npg.org.uk/collections/search/person?firstRun=true&sText=${encodeURIComponent(pm.name)}`,
+      publisher: 'npg.org.uk',
+      category: 'National Portrait Collection',
+    },
+  ];
 }
 
 export function getDetailedPMInfo(pm: PrimeMinister, language: string): DetailedPMContent {
@@ -91,6 +177,8 @@ export function getDetailedPMInfo(pm: PrimeMinister, language: string): Detailed
     );
   }
 
+  const sources = getSourcesForPM(pm);
+
   return {
     title: pm.name,
     imageUrl: pm.imageUrl,
@@ -106,5 +194,6 @@ export function getDetailedPMInfo(pm: PrimeMinister, language: string): Detailed
       years: n.years,
       description: n.description
     })) || []),
+    sources,
   };
 }

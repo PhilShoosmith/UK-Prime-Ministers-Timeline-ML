@@ -315,9 +315,9 @@ const App: React.FC = () => {
     setSelectedDetailedPM(pm);
     setIsRagModalOpen(true);
     setIsRagLoading(false);
-    setRagSources([]);
     const details = getDetailedPMInfo(pm, language);
     setRagContent(details);
+    setRagSources(details.sources || []);
   }, [language]);
 
   const renderGameScreen = () => {
