@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { RotateCw, Volume2, VolumeX } from 'lucide-react';
 import { PrimeMinister, GameMode } from '../types';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -14,9 +14,21 @@ interface StartScreenProps {
   onShowHallOfFame: () => void;
 }
 
+const getLocalizedFact = (pm: PrimeMinister, lang: string): string => {
+  if (lang === 'fr' && pm.contextFr) return pm.contextFr;
+  if (lang === 'ja' && pm.contextJa) return pm.contextJa;
+  if (lang === 'es' && pm.contextEs) return pm.contextEs;
+  if (lang === 'zh' && pm.contextZh) return pm.contextZh;
+  if (lang === 'ar' && pm.contextAr) return pm.contextAr;
+  if (lang === 'hi' && pm.contextHi) return pm.contextHi;
+  return pm.context;
+};
+
 const StartScreen: React.FC<StartScreenProps> = ({ onStart, pms, onShowInstructions, onReview, onShowPrivacy, onShowTerms, onShowHallOfFame }) => {
-  const { t } = useLanguage();
-  const [dailyFact, setDailyFact] = useState<{ pmName: string; fact: string } | null>(() => {
+  const { t, language } = useLanguage();
+  const [refreshedPmId, setRefreshedPmId] = useState<number | null>(null);
+
+  const defaultDailyPmId = useMemo(() => {
     if (!pms || pms.length === 0) return null;
     const today = new Date().toDateString();
     let seed = 0;
@@ -24,15 +36,20 @@ const StartScreen: React.FC<StartScreenProps> = ({ onStart, pms, onShowInstructi
       seed += today.charCodeAt(i);
     }
     const randomPmIndex = seed % pms.length;
-    const pm = pms[randomPmIndex];
-    let factText = pm.context;
-    const sentences = pm.context.split(/(?<=[.!?])\s+/);
-    if (sentences.length > 1) {
-      const factIndex = (seed % (sentences.length - 1)) + 1;
-      factText = sentences[factIndex] || sentences[0];
-    }
-    return { pmName: pm.name, fact: factText };
-  });
+    return pms[randomPmIndex]?.id ?? pms[0]?.id;
+  }, [pms]);
+
+  const activeDailyPmId = refreshedPmId ?? defaultDailyPmId;
+
+  const currentDailyPm = useMemo(() => {
+    if (!pms || pms.length === 0 || activeDailyPmId == null) return null;
+    return pms.find(p => p.id === activeDailyPmId) || pms[0];
+  }, [pms, activeDailyPmId]);
+
+  const dailyFactText = useMemo(() => {
+    if (!currentDailyPm) return '';
+    return getLocalizedFact(currentDailyPm, language);
+  }, [currentDailyPm, language]);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
@@ -127,20 +144,11 @@ const StartScreen: React.FC<StartScreenProps> = ({ onStart, pms, onShowInstructi
     setTimeout(() => setIsRefreshing(false), 500);
 
     // Pick a different PM than the currently displayed one if possible
-    let availablePms = pms;
-    if (dailyFact && pms.length > 1) {
-      availablePms = pms.filter(p => p.name !== dailyFact.pmName);
-    }
+    const availablePms = pms.length > 1 && currentDailyPm
+      ? pms.filter(p => p.id !== currentDailyPm.id)
+      : pms;
     const randomPm = availablePms[Math.floor(Math.random() * availablePms.length)];
-    
-    let factText = randomPm.context;
-    const sentences = randomPm.context.split(/(?<=[.!?])\s+/).filter(s => s.trim().length > 0);
-    if (sentences.length > 1) {
-      const factIndex = Math.floor(Math.random() * sentences.length);
-      factText = sentences[factIndex] || sentences[0];
-    }
-
-    setDailyFact({ pmName: randomPm.name, fact: factText });
+    setRefreshedPmId(randomPm.id);
   };
 
   const allPortraits = pms
@@ -273,7 +281,7 @@ const StartScreen: React.FC<StartScreenProps> = ({ onStart, pms, onShowInstructi
       </div>
 
       {/* Daily Historical Fact Banner */}
-      {dailyFact && (
+      {currentDailyPm && dailyFactText && (
         <div className="relative w-full max-w-2xl bg-slate-900/90 backdrop-blur-md border border-slate-700/50 rounded-xl p-4 shadow-xl z-20 animate-fade-in-up animation-delay-600 mx-auto mb-8">
           <div className="flex items-start gap-3 text-left">
             <span className="text-2xl flex-shrink-0 mt-0.5" aria-hidden="true">📜</span>
@@ -292,7 +300,7 @@ const StartScreen: React.FC<StartScreenProps> = ({ onStart, pms, onShowInstructi
                 </button>
               </div>
               <p className="text-slate-300 text-sm italic leading-relaxed">
-                "{dailyFact.fact}" <span className="font-semibold text-slate-400 not-italic">— {dailyFact.pmName}</span>
+                "{dailyFactText}" <span className="font-semibold text-slate-400 not-italic">— {currentDailyPm.name}</span>
               </p>
             </div>
           </div>
