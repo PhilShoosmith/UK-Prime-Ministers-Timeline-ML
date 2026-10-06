@@ -4,6 +4,8 @@ import { PrimeMinister, GameMode } from '../types';
 import { useLanguage } from '../contexts/LanguageContext';
 import LanguageDropdown from './LanguageDropdown';
 
+import { allPrimeMinisters } from '../services/gameService';
+
 interface StartScreenProps {
   onStart: (mode: GameMode) => void;
   pms: PrimeMinister[];
@@ -15,13 +17,14 @@ interface StartScreenProps {
 }
 
 const getLocalizedFact = (pm: PrimeMinister, lang: string): string => {
-  if (lang === 'fr' && pm.contextFr) return pm.contextFr;
-  if (lang === 'ja' && pm.contextJa) return pm.contextJa;
-  if (lang === 'es' && pm.contextEs) return pm.contextEs;
-  if (lang === 'zh' && pm.contextZh) return pm.contextZh;
-  if (lang === 'ar' && pm.contextAr) return pm.contextAr;
-  if (lang === 'hi' && pm.contextHi) return pm.contextHi;
-  return pm.context;
+  const canonical = allPrimeMinisters.find(p => p.id === pm.id) || pm;
+  if (lang === 'fr' && (canonical.contextFr || pm.contextFr)) return (canonical.contextFr || pm.contextFr)!;
+  if (lang === 'ja' && (canonical.contextJa || pm.contextJa)) return (canonical.contextJa || pm.contextJa)!;
+  if (lang === 'es' && (canonical.contextEs || pm.contextEs)) return (canonical.contextEs || pm.contextEs)!;
+  if (lang === 'zh' && (canonical.contextZh || pm.contextZh)) return (canonical.contextZh || pm.contextZh)!;
+  if (lang === 'ar' && (canonical.contextAr || pm.contextAr)) return (canonical.contextAr || pm.contextAr)!;
+  if (lang === 'hi' && (canonical.contextHi || pm.contextHi)) return (canonical.contextHi || pm.contextHi)!;
+  return canonical.context || pm.context;
 };
 
 const StartScreen: React.FC<StartScreenProps> = ({ onStart, pms, onShowInstructions, onReview, onShowPrivacy, onShowTerms, onShowHallOfFame }) => {
@@ -29,27 +32,26 @@ const StartScreen: React.FC<StartScreenProps> = ({ onStart, pms, onShowInstructi
   const [refreshedPmId, setRefreshedPmId] = useState<number | null>(null);
 
   const defaultDailyPmId = useMemo(() => {
-    if (!pms || pms.length === 0) return null;
+    const list = pms && pms.length > 0 ? pms : allPrimeMinisters;
+    if (!list || list.length === 0) return null;
     const today = new Date().toDateString();
     let seed = 0;
     for (let i = 0; i < today.length; i++) {
       seed += today.charCodeAt(i);
     }
-    const randomPmIndex = seed % pms.length;
-    return pms[randomPmIndex]?.id ?? pms[0]?.id;
+    const randomPmIndex = seed % list.length;
+    return list[randomPmIndex]?.id ?? list[0]?.id;
   }, [pms]);
 
   const activeDailyPmId = refreshedPmId ?? defaultDailyPmId;
 
   const currentDailyPm = useMemo(() => {
-    if (!pms || pms.length === 0 || activeDailyPmId == null) return null;
-    return pms.find(p => p.id === activeDailyPmId) || pms[0];
+    const list = pms && pms.length > 0 ? pms : allPrimeMinisters;
+    if (!list || list.length === 0 || activeDailyPmId == null) return null;
+    return list.find(p => p.id === activeDailyPmId) || list[0];
   }, [pms, activeDailyPmId]);
 
-  const dailyFactText = useMemo(() => {
-    if (!currentDailyPm) return '';
-    return getLocalizedFact(currentDailyPm, language);
-  }, [currentDailyPm, language]);
+  const dailyFactText = currentDailyPm ? getLocalizedFact(currentDailyPm, language) : '';
   const [isRefreshing, setIsRefreshing] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);

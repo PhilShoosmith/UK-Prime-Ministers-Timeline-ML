@@ -76,7 +76,7 @@ export function getSourcesForPM(pm: PrimeMinister): GroundingSource[] {
     ? `https://www.gov.uk/government/history/past-prime-ministers/${govSlug}`
     : 'https://www.gov.uk/government/history/past-prime-ministers';
 
-  return [
+  const sources: GroundingSource[] = [
     {
       title: `GOV.UK Past Prime Ministers: ${pm.name}`,
       uri: govUrl,
@@ -84,16 +84,24 @@ export function getSourcesForPM(pm: PrimeMinister): GroundingSource[] {
       category: 'Official Government Archive',
     },
     {
-      title: `UK Parliament Living Heritage: Prime Ministers and Politics`,
-      uri: 'https://www.parliament.uk/about/living-heritage/building/palace/parliament-commons/prime-ministers/',
+      title: `UK Parliament Official Records: ${pm.name}`,
+      uri: pm.id === 34 
+        ? 'https://members.parliament.uk/member/1435/career'
+        : 'https://www.parliament.uk/about/living-heritage/building/palace/parliament-commons/prime-ministers/',
       publisher: 'parliament.uk',
-      category: 'Parliamentary Archives',
+      category: 'Parliamentary & Legislative Records',
     },
     {
       title: `Encyclopaedia Britannica: ${pm.name}`,
       uri: `https://www.britannica.com/search?query=${encodeURIComponent(pm.name)}`,
       publisher: 'britannica.com',
       category: 'Historical Reference Encyclopedia',
+    },
+    {
+      title: `The National Archives (UK): State Papers & Records for ${pm.name}`,
+      uri: `https://discovery.nationalarchives.gov.uk/results/r?_q=${encodeURIComponent(pm.name)}`,
+      publisher: 'nationalarchives.gov.uk',
+      category: 'National Historical Repository',
     },
     {
       title: `Wikipedia: ${pm.name}`,
@@ -108,6 +116,8 @@ export function getSourcesForPM(pm: PrimeMinister): GroundingSource[] {
       category: 'National Portrait Collection',
     },
   ];
+
+  return sources;
 }
 
 export function getDetailedPMInfo(pm: PrimeMinister, language: string): DetailedPMContent {
