@@ -32,7 +32,7 @@ const StartScreen: React.FC<StartScreenProps> = ({ onStart, pms, onShowInstructi
   const [refreshedPmId, setRefreshedPmId] = useState<number | null>(null);
 
   const defaultDailyPmId = useMemo(() => {
-    const list = pms && pms.length > 0 ? pms : allPrimeMinisters;
+    const list = allPrimeMinisters.length > 0 ? allPrimeMinisters : pms;
     if (!list || list.length === 0) return null;
     const today = new Date().toDateString();
     let seed = 0;
@@ -46,7 +46,7 @@ const StartScreen: React.FC<StartScreenProps> = ({ onStart, pms, onShowInstructi
   const activeDailyPmId = refreshedPmId ?? defaultDailyPmId;
 
   const currentDailyPm = useMemo(() => {
-    const list = pms && pms.length > 0 ? pms : allPrimeMinisters;
+    const list = allPrimeMinisters.length > 0 ? allPrimeMinisters : pms;
     if (!list || list.length === 0 || activeDailyPmId == null) return null;
     return list.find(p => p.id === activeDailyPmId) || list[0];
   }, [pms, activeDailyPmId]);
@@ -141,14 +141,15 @@ const StartScreen: React.FC<StartScreenProps> = ({ onStart, pms, onShowInstructi
   };
 
   const handleRefreshFact = () => {
-    if (pms.length === 0) return;
+    const list = allPrimeMinisters.length > 0 ? allPrimeMinisters : pms;
+    if (list.length === 0) return;
     setIsRefreshing(true);
     setTimeout(() => setIsRefreshing(false), 500);
 
     // Pick a different PM than the currently displayed one if possible
-    const availablePms = pms.length > 1 && currentDailyPm
-      ? pms.filter(p => p.id !== currentDailyPm.id)
-      : pms;
+    const availablePms = list.length > 1 && currentDailyPm
+      ? list.filter(p => p.id !== currentDailyPm.id)
+      : list;
     const randomPm = availablePms[Math.floor(Math.random() * availablePms.length)];
     setRefreshedPmId(randomPm.id);
   };

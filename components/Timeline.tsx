@@ -67,7 +67,7 @@ const Timeline: React.FC<TimelineProps> = ({ onGuess, disabled, lastGuess }) => 
   }
 
   return (
-    <div className="w-full py-8 px-4 relative">
+    <div className="w-full py-2 sm:py-3 px-2 sm:px-4 relative">
       <div className="relative mb-3 w-full h-10 flex items-center rounded-lg overflow-hidden border border-slate-700">
         {POLITICAL_ERAS.map(era => (
             <div 
