@@ -192,6 +192,14 @@ export const translations = {
     // HallOfFame
     'hof.player': 'Player',
     'hof.noRecords': 'No records found for this mode yet. Be the first!',
+    // Career Tree Tenure Highlights
+    'career.tenureHighlights': 'Tenure Highlights',
+    'career.tenureHighlightsSubtitle': 'Key highlights in office and contemporaries in power',
+    'career.keyHighlights': 'Key Highlights in Office',
+    'career.contemporariesInPower': 'Who Was in Power',
+    'career.ukMonarchs': 'UK Monarchs',
+    'career.usPresidents': 'US Presidents',
+    'career.frenchRulers': 'French Rulers',
   },
   fr: {
     // StartScreen
@@ -384,6 +392,14 @@ export const translations = {
     // HallOfFame
     'hof.player': 'Joueur',
     'hof.noRecords': 'Aucun enregistrement trouvé pour ce mode pour le moment. Soyez le premier !',
+    // Career Tree Tenure Highlights
+    'career.tenureHighlights': 'Faits Marquants du Mandat',
+    'career.tenureHighlightsSubtitle': 'Principaux événements en fonction et dirigeants contemporains',
+    'career.keyHighlights': 'Principaux Événements en Fonction',
+    'career.contemporariesInPower': 'Qui était au pouvoir à cette époque',
+    'career.ukMonarchs': 'Monarques Britanniques',
+    'career.usPresidents': 'Présidents des États-Unis',
+    'career.frenchRulers': 'Dirigeants Français',
   },
   ja: {
     // StartScreen
@@ -576,6 +592,14 @@ export const translations = {
     // HallOfFame
     'hof.player': 'プレイヤー',
     'hof.noRecords': 'このモードの記録はまだありません。最初の記録を作りましょう！',
+    // Career Tree Tenure Highlights
+    'career.tenureHighlights': '在任中のハイライト',
+    'career.tenureHighlightsSubtitle': '在任中の主な出来事と同時代の各国の指導者',
+    'career.keyHighlights': '在職中の重要事項',
+    'career.contemporariesInPower': '同時代の権力者',
+    'career.ukMonarchs': '英国君主',
+    'career.usPresidents': '米国大統領',
+    'career.frenchRulers': 'フランスの統治者',
   },
   es: {
     // StartScreen
@@ -768,6 +792,14 @@ export const translations = {
     // HallOfFame
     'hof.player': 'Jugador',
     'hof.noRecords': 'Aún no hay registros para este modo. ¡Sé el primero!',
+    // Career Tree Tenure Highlights
+    'career.tenureHighlights': 'Aspectos Destacados del Mandato',
+    'career.tenureHighlightsSubtitle': 'Hitos clave en el cargo y gobernantes contemporáneos',
+    'career.keyHighlights': 'Hitos Clave en el Cargo',
+    'career.contemporariesInPower': 'Quién Estaba en el Poder',
+    'career.ukMonarchs': 'Monarcas Británicos',
+    'career.usPresidents': 'Presidentes de EE. UU.',
+    'career.frenchRulers': 'Gobernantes Franceses',
   },
   zh: {
     // StartScreen
@@ -960,6 +992,14 @@ export const translations = {
     // HallOfFame
     'hof.player': '玩家',
     'hof.noRecords': '此模式尚无记录。成为第一个吧！',
+    // Career Tree Tenure Highlights
+    'career.tenureHighlights': '执政要闻与成就',
+    'career.tenureHighlightsSubtitle': '在任期间的核心里程碑与同时期在位领导人',
+    'career.keyHighlights': '任内重要事件与改革',
+    'career.contemporariesInPower': '同时期在位统治者',
+    'career.ukMonarchs': '英国君主',
+    'career.usPresidents': '美国总统',
+    'career.frenchRulers': '法国统治者',
   },
   ar: {
     // StartScreen
@@ -1152,6 +1192,14 @@ export const translations = {
     // HallOfFame
     'hof.player': 'لاعب',
     'hof.noRecords': 'لا توجد سجلات لهذا الوضع حتى الآن. كن الأول!',
+    // Career Tree Tenure Highlights
+    'career.tenureHighlights': 'أبرز محطات الولاية',
+    'career.tenureHighlightsSubtitle': 'الأحداث الرئيسية أثناء تولي المنصب والقادة المعاصرون في السلطة',
+    'career.keyHighlights': 'أهم الإنجازات أثناء الولاية',
+    'career.contemporariesInPower': 'من كان في السلطة في ذلك الوقت',
+    'career.ukMonarchs': 'ملوك بريطانيا',
+    'career.usPresidents': 'رؤساء الولايات المتحدة',
+    'career.frenchRulers': 'حكام فرنسا',
   },
   hi: {
     // StartScreen
@@ -1344,5 +1392,13 @@ export const translations = {
     // HallOfFame
     'hof.player': 'खिलाड़ी',
     'hof.noRecords': 'इस मोड के लिए अभी तक कोई रिकॉर्ड नहीं है। पहले बनें!',
+    // Career Tree Tenure Highlights
+    'career.tenureHighlights': 'कार्यकाल की मुख्य विशेषताएं',
+    'career.tenureHighlightsSubtitle': 'पद पर रहते हुए मुख्य उपलब्धियां और समकालीन शासक',
+    'career.keyHighlights': 'कार्यालय में मुख्य मुख्य अंश',
+    'career.contemporariesInPower': 'उस समय सत्ता में कौन था',
+    'career.ukMonarchs': 'यूके के सम्राट',
+    'career.usPresidents': 'अमेरिकी राष्ट्रपति',
+    'career.frenchRulers': 'फ्रांसीसी शासक',
   }
 };

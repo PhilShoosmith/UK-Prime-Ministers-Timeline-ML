@@ -1,6 +1,10 @@
 import React, { useState, useMemo } from 'react';
 import { PrimeMinister } from '../types';
 import { pmCareerTrees, CareerNode } from '../data/pmCareerTrees';
+import { tenureHighlightsData } from '../data/tenureHighlightsData';
+import ukMonarchsImg from '../src/assets/images/uk_monarchs_emblem_1791304873815.jpg';
+import frenchRulersImg from '../src/assets/images/french_rulers_emblem_1791304901311.jpg';
+import usPresidentsImg from '../src/assets/images/us_presidents_emblem_1791304921371.jpg';
 import { 
   GraduationCap, 
   Briefcase, 
@@ -144,6 +148,11 @@ export const CareerTreeModal: React.FC<CareerTreeModalProps> = ({
     if (filter === 'pm') return careerData.nodes.filter(n => n.category === 'prime_minister');
     return careerData.nodes;
   }, [careerData, filter]);
+
+  const tenureHighlights = useMemo(() => {
+    if (!primeMinister) return null;
+    return tenureHighlightsData[primeMinister.id] || null;
+  }, [primeMinister]);
 
   if (!isOpen || !primeMinister || !careerData) return null;
 
@@ -348,6 +357,196 @@ export const CareerTreeModal: React.FC<CareerTreeModalProps> = ({
               );
             })}
           </div>
+
+          {/* Section at the end: Tenure Highlights */}
+          {tenureHighlights && (
+            <div className="mt-8 sm:mt-10 pt-6 sm:pt-8 border-t border-slate-700/80">
+              {/* Section Header */}
+              <div className="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <div>
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-gradient-to-r from-amber-500/20 via-yellow-500/20 to-amber-500/10 border border-amber-400/40 text-amber-300 shadow-sm mb-2">
+                    <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+                    <span>Tenure Highlights</span>
+                  </div>
+                  <h3 className="text-xl sm:text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-amber-200 to-amber-400 tracking-tight">
+                    {t('career.tenureHighlights')}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-slate-400 mt-0.5">
+                    {t('career.tenureHighlightsSubtitle')} ({primeMinister.termStart}–{primeMinister.termEnd ?? t('pmCard.present')})
+                  </p>
+                </div>
+
+                <div className="text-xs font-mono text-amber-300/80 bg-slate-800/90 border border-slate-700/80 px-3 py-1.5 rounded-lg flex items-center gap-2 self-start sm:self-auto shadow-sm">
+                  <Crown className="w-3.5 h-3.5 text-amber-400" />
+                  <span>10 Downing Street</span>
+                </div>
+              </div>
+
+              {/* Part 1: Key Highlights during period in office */}
+              <div className="mb-8">
+                <h4 className="text-sm font-bold uppercase tracking-wider text-slate-300 mb-3 flex items-center gap-2">
+                  <span className="w-2.5 h-2.5 rounded-full bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.6)]"></span>
+                  <span>{t('career.keyHighlights')}</span>
+                </h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
+                  {tenureHighlights.highlights.map((item, idx) => (
+                    <div 
+                      key={idx}
+                      className="bg-gradient-to-br from-slate-800/95 to-slate-800/70 border border-slate-700/80 hover:border-amber-400/50 rounded-xl p-3.5 sm:p-4 transition-all duration-300 shadow-md group"
+                    >
+                      <div className="flex items-center justify-between gap-2 mb-1.5">
+                        <span className="text-xs font-mono font-semibold text-amber-300 bg-amber-950/60 border border-amber-500/30 px-2 py-0.5 rounded">
+                          {item.yearOrSpan || `Point ${idx + 1}`}
+                        </span>
+                        <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider">
+                          Key Milestone
+                        </span>
+                      </div>
+                      <h5 className="text-sm sm:text-base font-bold text-white group-hover:text-yellow-200 transition-colors">
+                        {item.title}
+                      </h5>
+                      <p className="text-xs sm:text-sm text-slate-300 mt-1 leading-relaxed">
+                        {item.description}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Part 2: Who was in power at that time (UK Monarchs, US Presidents, French Rulers) */}
+              <div>
+                <h4 className="text-sm font-bold uppercase tracking-wider text-slate-300 mb-3 flex items-center gap-2">
+                  <span className="w-2.5 h-2.5 rounded-full bg-sky-400 shadow-[0_0_8px_rgba(56,189,248,0.6)]"></span>
+                  <span>{t('career.contemporariesInPower')}</span>
+                  <span className="text-xs font-normal text-slate-400 normal-case hidden sm:inline">
+                    — UK Monarchs, US Presidents &amp; French Rulers during tenure
+                  </span>
+                </h4>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5 sm:gap-4">
+                  {/* UK Monarchs Card */}
+                  <div className="bg-slate-800/85 border border-amber-500/30 hover:border-amber-400/60 rounded-xl p-4 shadow-lg flex flex-col transition-all">
+                    <div className="flex items-center gap-2.5 pb-3 border-b border-slate-700/70 mb-3">
+                      <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-amber-400/90 shadow-md flex-shrink-0 bg-slate-900">
+                        <img 
+                          src={ukMonarchsImg} 
+                          alt="UK Monarchs" 
+                          className="w-full h-full object-cover" 
+                        />
+                      </div>
+                      <div>
+                        <h5 className="text-sm font-bold text-amber-200 flex items-center gap-1.5">
+                          <span>🇬🇧</span>
+                          <span>{t('career.ukMonarchs')}</span>
+                        </h5>
+                        <span className="text-[11px] text-slate-400">On the British Throne</span>
+                      </div>
+                    </div>
+
+                    <ul className="space-y-2 flex-grow">
+                      {tenureHighlights.contemporaries.ukMonarchs.map((monarch, idx) => (
+                        <li key={idx} className="bg-slate-900/60 rounded-lg p-2.5 border border-slate-700/50">
+                          <div className="flex items-baseline justify-between gap-1 flex-wrap">
+                            <span className="text-xs sm:text-sm font-bold text-white">
+                              {monarch.name}
+                            </span>
+                            <span className="text-[11px] font-mono text-amber-300/80">
+                              {monarch.reignOrTerm}
+                            </span>
+                          </div>
+                          {monarch.roleTitle && (
+                            <p className="text-[11px] text-slate-400 mt-0.5">
+                              {monarch.roleTitle}
+                            </p>
+                          )}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {/* US Presidents Card */}
+                  <div className="bg-slate-800/85 border border-blue-500/30 hover:border-blue-400/60 rounded-xl p-4 shadow-lg flex flex-col transition-all">
+                    <div className="flex items-center gap-2.5 pb-3 border-b border-slate-700/70 mb-3">
+                      <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-blue-400/90 shadow-md flex-shrink-0 bg-slate-900">
+                        <img 
+                          src={usPresidentsImg} 
+                          alt="US Presidents" 
+                          className="w-full h-full object-cover" 
+                        />
+                      </div>
+                      <div>
+                        <h5 className="text-sm font-bold text-sky-200 flex items-center gap-1.5">
+                          <span>🇺🇸</span>
+                          <span>{t('career.usPresidents')}</span>
+                        </h5>
+                        <span className="text-[11px] text-slate-400">In the White House</span>
+                      </div>
+                    </div>
+
+                    <ul className="space-y-2 flex-grow">
+                      {tenureHighlights.contemporaries.usPresidents.map((pres, idx) => (
+                        <li key={idx} className="bg-slate-900/60 rounded-lg p-2.5 border border-slate-700/50">
+                          <div className="flex items-baseline justify-between gap-1 flex-wrap">
+                            <span className="text-xs sm:text-sm font-bold text-white">
+                              {pres.name}
+                            </span>
+                            <span className="text-[11px] font-mono text-sky-300/80">
+                              {pres.reignOrTerm}
+                            </span>
+                          </div>
+                          {pres.roleTitle && (
+                            <p className="text-[11px] text-slate-400 mt-0.5">
+                              {pres.roleTitle}
+                            </p>
+                          )}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {/* French Rulers Card */}
+                  <div className="bg-slate-800/85 border border-indigo-500/30 hover:border-indigo-400/60 rounded-xl p-4 shadow-lg flex flex-col transition-all">
+                    <div className="flex items-center gap-2.5 pb-3 border-b border-slate-700/70 mb-3">
+                      <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-indigo-400/90 shadow-md flex-shrink-0 bg-slate-900">
+                        <img 
+                          src={frenchRulersImg} 
+                          alt="French Rulers" 
+                          className="w-full h-full object-cover" 
+                        />
+                      </div>
+                      <div>
+                        <h5 className="text-sm font-bold text-indigo-200 flex items-center gap-1.5">
+                          <span>🇫🇷</span>
+                          <span>{t('career.frenchRulers')}</span>
+                        </h5>
+                        <span className="text-[11px] text-slate-400">State Leadership</span>
+                      </div>
+                    </div>
+
+                    <ul className="space-y-2 flex-grow">
+                      {tenureHighlights.contemporaries.frenchRulers.map((french, idx) => (
+                        <li key={idx} className="bg-slate-900/60 rounded-lg p-2.5 border border-slate-700/50">
+                          <div className="flex items-baseline justify-between gap-1 flex-wrap">
+                            <span className="text-xs sm:text-sm font-bold text-white">
+                              {french.name}
+                            </span>
+                            <span className="text-[11px] font-mono text-indigo-300/80">
+                              {french.reignOrTerm}
+                            </span>
+                          </div>
+                          {french.roleTitle && (
+                            <p className="text-[11px] text-slate-400 mt-0.5">
+                              {french.roleTitle}
+                            </p>
+                          )}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Footer */}
