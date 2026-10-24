@@ -28,56 +28,58 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ primeMinister, onLearnMore, onS
   return (
     <div 
       onClick={() => onLearnMore(primeMinister)}
-      className={`w-56 sm:w-64 h-[calc(100vh-14rem)] max-h-[30rem] min-h-[21rem] flex-shrink-0 bg-slate-800 rounded-xl shadow-lg border-2 border-slate-700 hover:${styles.border} transition-all duration-300 p-3 flex flex-col cursor-pointer group`}
+      className={`w-60 sm:w-72 h-[450px] sm:h-[480px] flex-shrink-0 bg-slate-900/90 backdrop-blur-md rounded-2xl shadow-xl border border-slate-700/70 hover:${styles.border} hover:shadow-2xl transition-all duration-300 p-3 sm:p-3.5 flex flex-col cursor-pointer group`}
       role="button"
       aria-label={`Learn more about ${name}`}
     >
-      {/* Scaled-down picture */}
-      <div className="w-full flex justify-center mb-2 flex-shrink-0">
-        <div className="relative h-24 sm:h-28 w-auto aspect-[3/4] rounded-lg overflow-hidden bg-slate-700 border border-slate-600/60 shadow-md">
-          {imageUrl ? (
-            <img
-              src={imageUrl}
-              alt={`Portrait of ${name}`}
-              className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-              loading="lazy"
-            />
-          ) : (
-            <div className="w-full h-full flex items-center justify-center text-slate-400 text-xs px-2 text-center">
-              {t('reviewCard.noPortrait')}
-            </div>
-          )}
-        </div>
+      {/* Prominent Picture - calibrated height so factual info fits without scrolling */}
+      <div className="w-full h-44 sm:h-50 rounded-xl overflow-hidden bg-slate-800 shadow-md flex-shrink-0">
+        {imageUrl ? (
+          <img
+            src={imageUrl}
+            alt={`Portrait of ${name}`}
+            className="w-full h-full object-cover object-top transition-transform duration-300 group-hover:scale-105"
+            loading="lazy"
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center text-slate-400 text-xs px-2 text-center">
+            {t('reviewCard.noPortrait')}
+          </div>
+        )}
       </div>
 
-      {/* PM Details */}
-      <div className="flex flex-col flex-grow min-h-0 text-center">
-        <h3 className="text-sm sm:text-base font-bold text-white leading-tight truncate px-1">{name}</h3>
-        <p className="text-xs font-mono text-amber-300/80 mt-0.5">{termStart} - {termEndDisplay}</p>
+      {/* PM Details: Name, Term, and Direct Context Text */}
+      <div className="flex flex-col flex-grow min-h-0">
+        <h3 className="text-sm sm:text-base font-bold text-white text-center leading-tight truncate mt-2 sm:mt-2.5 px-1">
+          {name}
+        </h3>
+        <p className="text-[11px] sm:text-xs font-medium text-amber-400 text-center mt-0.5 font-mono">
+          {termStart} - {termEndDisplay}
+        </p>
         
-        {/* Historical Fact - with smaller font and clean scrollable view, NO overlays */}
+        {/* Historical Context - full text displayed cleanly with NO scroll required */}
         <div 
           onClick={(e) => e.stopPropagation()} 
-          className="mt-2 p-2 bg-slate-900/40 rounded-lg border border-slate-700/40 overflow-y-auto flex-grow text-left cursor-text"
+          className="mt-2 text-left flex-grow flex items-center cursor-text"
         >
-          <p className="text-[11px] sm:text-xs text-slate-300 leading-relaxed">
+          <p className="text-[11px] sm:text-xs text-slate-300 leading-normal sm:leading-relaxed px-0.5">
             {displayContext}
           </p>
         </div>
 
-        {/* Action Buttons */}
-        <div className="mt-2 pt-2 border-t border-slate-700/60 flex-shrink-0 flex items-center gap-1.5">
+        {/* Action Buttons matching Lord North reference */}
+        <div className="mt-2 pt-2 border-t border-slate-800 flex-shrink-0 flex items-center gap-2">
           <button
             type="button"
             onClick={(e) => {
               e.stopPropagation();
               onLearnMore(primeMinister);
             }}
-            className="flex-1 py-1.5 px-2 bg-blue-600/25 hover:bg-blue-600/40 text-blue-300 border border-blue-500/40 hover:border-blue-400 rounded-lg text-xs font-semibold flex items-center justify-center gap-1 transition-all"
+            className="flex-1 py-1.5 px-2.5 bg-blue-600/20 hover:bg-blue-600/35 text-blue-300 border border-blue-500/40 hover:border-blue-400 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition-all shadow-sm"
             title={`View detailed history of ${name}`}
           >
-            <BookOpen className="w-3.5 h-3.5 text-blue-400" />
-            <span>{t('rag.title')}</span>
+            <BookOpen className="w-3.5 h-3.5 text-blue-400 flex-shrink-0" />
+            <span className="truncate">{t('rag.title')}</span>
           </button>
           <button
             type="button"
@@ -85,11 +87,11 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ primeMinister, onLearnMore, onS
               e.stopPropagation();
               onShowCareerTree?.(primeMinister);
             }}
-            className="flex-1 py-1.5 px-2 bg-gradient-to-r from-amber-600/20 to-yellow-600/20 hover:from-amber-600/40 hover:to-yellow-600/40 text-amber-300 border border-amber-500/40 hover:border-amber-400 rounded-lg text-xs font-semibold flex items-center justify-center gap-1 transition-all shadow-sm"
+            className="flex-1 py-1.5 px-2.5 bg-amber-600/20 hover:bg-amber-600/35 text-amber-300 border border-amber-500/40 hover:border-amber-400 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition-all shadow-sm"
             title={`View career tree and key roles for ${name}`}
           >
-            <Crown className="w-3.5 h-3.5 text-amber-400" />
-            <span>Career</span>
+            <Crown className="w-3.5 h-3.5 text-amber-400 flex-shrink-0" />
+            <span className="truncate">Career</span>
           </button>
         </div>
       </div>

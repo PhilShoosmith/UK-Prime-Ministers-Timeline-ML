@@ -164,41 +164,37 @@ const ReviewScreen: React.FC<ReviewScreenProps> = ({ pms, onStop, onLearnMore, o
 
   return (
     <div className="w-full h-screen flex flex-col items-center justify-between relative overflow-hidden bg-slate-900">
-      <header className="w-full z-10 p-2 sm:p-4 pt-3 sm:pt-6 bg-slate-900/50 backdrop-blur-sm flex flex-col gap-1.5 sm:gap-4 flex-shrink-0">
-        <div className="w-full max-w-6xl mx-auto relative flex items-center justify-center px-2 sm:px-4">
-          <div className="absolute left-2 sm:left-4 z-20">
-            <button
-              onClick={onStop}
-              className="px-2.5 py-1 sm:px-4 sm:py-2 text-xs sm:text-sm bg-slate-700 text-white font-semibold rounded-lg hover:bg-slate-600 transition-colors duration-300 ease-in-out shadow-md focus:outline-none focus:ring-4 focus:ring-slate-500/50 whitespace-nowrap"
-            >
-              &lt;<span className="hidden md:inline"> {t('review.back')}</span>
-            </button>
-          </div>
+      <header className="w-full z-10 p-2 sm:p-4 pt-2.5 sm:pt-4 bg-slate-900/50 backdrop-blur-sm flex flex-col gap-1 sm:gap-2 flex-shrink-0">
+        <div className="w-full max-w-6xl mx-auto flex items-center justify-between gap-2 px-2 sm:px-4">
+          <button
+            onClick={onStop}
+            className="px-2.5 py-1 sm:px-4 sm:py-1.5 text-xs sm:text-sm bg-slate-700 text-white font-semibold rounded-lg hover:bg-slate-600 transition-colors duration-300 ease-in-out shadow-md focus:outline-none focus:ring-4 focus:ring-slate-500/50 whitespace-nowrap flex-shrink-0"
+          >
+            &larr;<span className="hidden sm:inline"> {t('review.back')}</span>
+          </button>
           
-          <h1 className="text-base sm:text-2xl md:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500 text-center px-12 sm:px-28 truncate">
+          <h1 className="text-sm sm:text-xl md:text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500 text-center truncate flex-1 px-1 sm:px-4">
             {t('review.title')}
           </h1>
           
-          <div className="absolute right-2 sm:right-4 z-20">
-            <button
-                onClick={() => setIsSearchPopupOpen(true)}
-                className="bg-blue-600 hover:bg-blue-700 border border-blue-500 rounded-lg px-2 sm:px-3 py-1 sm:py-1.5 text-xs sm:text-sm text-white font-semibold focus:outline-none focus:ring-2 focus:ring-blue-400/50 transition-all flex items-center gap-1 sm:gap-1.5 shadow-md"
-                aria-label="Open advanced search and filtering options"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                  <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
-              </svg>
-              <span className="hidden sm:inline">{t('review.searchFilter')}</span>
-              {activeFilterCount > 0 && (
-                <span className="bg-white text-blue-600 text-[10px] font-bold rounded-full h-4 w-4 flex items-center justify-center">
-                  {activeFilterCount}
-                </span>
-              )}
-            </button>
-          </div>
+          <button
+              onClick={() => setIsSearchPopupOpen(true)}
+              className="bg-blue-600 hover:bg-blue-700 border border-blue-500 rounded-lg px-2 sm:px-3 py-1 sm:py-1.5 text-xs sm:text-sm text-white font-semibold focus:outline-none focus:ring-2 focus:ring-blue-400/50 transition-all flex items-center gap-1 sm:gap-1.5 shadow-md flex-shrink-0 whitespace-nowrap"
+              aria-label="Open advanced search and filtering options"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
+            </svg>
+            <span className="hidden sm:inline">{t('review.searchFilter')}</span>
+            {activeFilterCount > 0 && (
+              <span className="bg-white text-blue-600 text-[10px] font-bold rounded-full h-4 w-4 flex items-center justify-center">
+                {activeFilterCount}
+              </span>
+            )}
+          </button>
         </div>
 
-        <p className="text-xs sm:text-sm text-slate-400 text-center pointer-events-none">
+        <p className="text-[11px] sm:text-xs text-slate-400 text-center pointer-events-none px-2 truncate">
           {isSearching 
             ? t('review.found').replace('{count}', filteredPms.length.toString()).replace('{s}', filteredPms.length !== 1 ? 's' : '')
             : t('review.hoverToPause')
@@ -207,7 +203,7 @@ const ReviewScreen: React.FC<ReviewScreenProps> = ({ pms, onStop, onLearnMore, o
       </header>
 
       <div 
-        className={`flex-grow w-full flex items-center ${isSearching ? 'overflow-x-auto justify-start' : 'overflow-hidden'}`}
+        className={`flex-grow min-h-0 w-full flex items-center ${isSearching ? 'overflow-x-auto justify-start py-2 sm:py-3' : 'overflow-hidden py-2 sm:py-3'}`}
         onMouseEnter={() => setIsHoverPaused(true)}
         onMouseLeave={() => setIsHoverPaused(false)}
         onTouchStart={() => setIsHoverPaused(true)}
@@ -215,7 +211,7 @@ const ReviewScreen: React.FC<ReviewScreenProps> = ({ pms, onStop, onLearnMore, o
       >
         <div 
           ref={scrollContainerRef}
-          className="flex-shrink-0 flex items-center gap-4 px-4"
+          className="flex-shrink-0 flex items-center gap-4 sm:gap-6 px-4"
         >
           {pmsToDisplay.map((pm, index) => (
             <ReviewCard
@@ -233,7 +229,7 @@ const ReviewScreen: React.FC<ReviewScreenProps> = ({ pms, onStop, onLearnMore, o
         </div>
       </div>
 
-      <div className="w-full z-10 p-2 sm:p-4 bg-slate-900/50 backdrop-blur-sm flex justify-center pb-3 sm:pb-6 flex-shrink-0">
+      <div className="w-full z-10 p-2 sm:p-3 bg-slate-900/50 backdrop-blur-sm flex justify-center pb-2.5 sm:pb-4 flex-shrink-0">
         {!isSearching && (
           <div className="flex items-center bg-slate-800/80 backdrop-blur-md border border-slate-700 rounded-full px-2 sm:px-4 py-1 gap-2 sm:gap-4 shadow-lg">
             <button 
