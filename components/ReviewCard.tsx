@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React from 'react';
 import { PrimeMinister } from '../types';
 import { useLanguage } from '../contexts/LanguageContext';
 import { Crown, BookOpen } from 'lucide-react';
@@ -24,72 +24,48 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ primeMinister, onLearnMore, onS
   const { t, language } = useLanguage();
   const termEndDisplay = termEnd ?? t('reviewCard.present');
   const displayContext = language === 'hi' && contextHi ? contextHi : (language === 'ar' && contextAr ? contextAr : (language === 'zh' && contextZh ? contextZh : (language === 'es' && contextEs ? contextEs : (language === 'ja' && contextJa ? contextJa : (language === 'fr' && contextFr ? contextFr : context)))));
-  
-  const containerRef = useRef<HTMLDivElement>(null);
-  const textRef = useRef<HTMLParagraphElement>(null);
-  const [isOverflowing, setIsOverflowing] = useState(false);
-
-  useEffect(() => {
-    const checkOverflow = () => {
-      if (containerRef.current && textRef.current) {
-        setIsOverflowing(textRef.current.scrollHeight > containerRef.current.clientHeight);
-      }
-    };
-    
-    checkOverflow();
-    
-    const resizeObserver = new ResizeObserver(() => {
-      checkOverflow();
-    });
-    
-    if (containerRef.current) {
-      resizeObserver.observe(containerRef.current);
-    }
-    
-    return () => resizeObserver.disconnect();
-  }, [displayContext]);
 
   return (
     <div 
       onClick={() => onLearnMore(primeMinister)}
-      className={`w-64 h-[calc(100vh-16rem)] max-h-[34rem] min-h-[24rem] flex-shrink-0 bg-slate-800 rounded-xl shadow-lg border-2 border-slate-700 hover:${styles.border} transition-all duration-300 p-3 flex flex-col cursor-pointer group`}
+      className={`w-56 sm:w-64 h-[calc(100vh-14rem)] max-h-[30rem] min-h-[21rem] flex-shrink-0 bg-slate-800 rounded-xl shadow-lg border-2 border-slate-700 hover:${styles.border} transition-all duration-300 p-3 flex flex-col cursor-pointer group`}
       role="button"
       aria-label={`Learn more about ${name}`}
     >
-      <div className="relative aspect-[3/4] w-full rounded-md overflow-hidden bg-slate-700 mb-2 flex-shrink-0">
-        {imageUrl ? (
-          <img
-            src={imageUrl}
-            alt={`Portrait of ${name}`}
-            className="w-full h-full object-cover"
-            loading="lazy"
-          />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center text-slate-400">
-            {t('reviewCard.noPortrait')}
-          </div>
-        )}
-      </div>
-      <div className="flex flex-col flex-grow min-h-0 text-center relative">
-        <h3 className="text-lg font-bold text-white">{name}</h3>
-        <p className="text-sm font-mono text-amber-300/80">{termStart} - {termEndDisplay}</p>
-        
-        <div ref={containerRef} className="mt-2 overflow-hidden flex-grow text-left relative">
-          <p ref={textRef} className="text-sm text-slate-300">
-            {displayContext}
-          </p>
-          {isOverflowing && (
-            <div className="absolute bottom-0 left-0 w-full h-8 bg-gradient-to-t from-slate-800 to-transparent pointer-events-none"></div>
+      {/* Scaled-down picture */}
+      <div className="w-full flex justify-center mb-2 flex-shrink-0">
+        <div className="relative h-24 sm:h-28 w-auto aspect-[3/4] rounded-lg overflow-hidden bg-slate-700 border border-slate-600/60 shadow-md">
+          {imageUrl ? (
+            <img
+              src={imageUrl}
+              alt={`Portrait of ${name}`}
+              className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+              loading="lazy"
+            />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center text-slate-400 text-xs px-2 text-center">
+              {t('reviewCard.noPortrait')}
+            </div>
           )}
         </div>
-        
-        {/* Tooltip for overflowing text */}
-        {isOverflowing && (
-          <div className="absolute z-20 bottom-0 left-0 w-full bg-slate-900/95 backdrop-blur-sm border border-slate-600 p-3 rounded-lg shadow-[0_-10px_40px_rgba(0,0,0,0.5)] opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none translate-y-2 group-hover:translate-y-0">
-            <p className="text-sm text-slate-200 text-left">{displayContext}</p>
-          </div>
-        )}
+      </div>
 
+      {/* PM Details */}
+      <div className="flex flex-col flex-grow min-h-0 text-center">
+        <h3 className="text-sm sm:text-base font-bold text-white leading-tight truncate px-1">{name}</h3>
+        <p className="text-xs font-mono text-amber-300/80 mt-0.5">{termStart} - {termEndDisplay}</p>
+        
+        {/* Historical Fact - with smaller font and clean scrollable view, NO overlays */}
+        <div 
+          onClick={(e) => e.stopPropagation()} 
+          className="mt-2 p-2 bg-slate-900/40 rounded-lg border border-slate-700/40 overflow-y-auto flex-grow text-left cursor-text"
+        >
+          <p className="text-[11px] sm:text-xs text-slate-300 leading-relaxed">
+            {displayContext}
+          </p>
+        </div>
+
+        {/* Action Buttons */}
         <div className="mt-2 pt-2 border-t border-slate-700/60 flex-shrink-0 flex items-center gap-1.5">
           <button
             type="button"

@@ -77,7 +77,7 @@ const InstructionsModal: React.FC<InstructionsModalProps> = ({ isOpen, onClose }
             </h4>
             <div className="relative w-full aspect-video rounded-xl overflow-hidden border border-slate-700 bg-slate-900 shadow-xl">
               <iframe
-                src="https://www.youtube.com/embed/D0SG5GGUvi4"
+                src="https://www.youtube.com/embed/U_AvqhaJKCU"
                 title="UK Prime Ministers Timeline Tutorial"
                 className="absolute inset-0 w-full h-full border-0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"

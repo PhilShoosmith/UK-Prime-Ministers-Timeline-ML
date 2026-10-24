@@ -36,13 +36,13 @@ const FactGuesser: React.FC<FactGuesserProps> = ({ primeMinister, allPMs, onSubm
 
   return (
     <div className="w-full">
-      <p className="text-lg md:text-xl text-slate-300 font-light mb-6 text-center">
+      <p className="text-sm sm:text-lg md:text-xl text-slate-300 font-light mb-2 sm:mb-4 text-center">
         {t('fact.title')}
       </p>
-      <blockquote className="border-l-4 border-slate-600 pl-4 py-2 mb-6 bg-slate-900/30 rounded-r-lg">
-        <p className="text-md text-slate-200 italic">"{language === 'hi' && primeMinister.contextHi ? primeMinister.contextHi : (language === 'ar' && primeMinister.contextAr ? primeMinister.contextAr : (language === 'zh' && primeMinister.contextZh ? primeMinister.contextZh : (language === 'es' && primeMinister.contextEs ? primeMinister.contextEs : (language === 'ja' && primeMinister.contextJa ? primeMinister.contextJa : (language === 'fr' && primeMinister.contextFr ? primeMinister.contextFr : primeMinister.context)))))}"</p>
+      <blockquote className="border-l-4 border-slate-600 pl-3 py-1.5 sm:py-2 mb-2.5 sm:mb-6 bg-slate-900/30 rounded-r-lg">
+        <p className="text-xs sm:text-base text-slate-200 italic leading-snug">"{language === 'hi' && primeMinister.contextHi ? primeMinister.contextHi : (language === 'ar' && primeMinister.contextAr ? primeMinister.contextAr : (language === 'zh' && primeMinister.contextZh ? primeMinister.contextZh : (language === 'es' && primeMinister.contextEs ? primeMinister.contextEs : (language === 'ja' && primeMinister.contextJa ? primeMinister.contextJa : (language === 'fr' && primeMinister.contextFr ? primeMinister.contextFr : primeMinister.context)))))}"</p>
       </blockquote>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4">
         {options.map(pm => {
           const isSelected = feedback && feedback.id === pm.id;
           const isCorrect = pm.id === primeMinister.id;
@@ -64,7 +64,7 @@ const FactGuesser: React.FC<FactGuesserProps> = ({ primeMinister, allPMs, onSubm
               key={pm.id}
               onClick={() => onSubmit(pm.id)}
               disabled={disabled || !!feedback}
-              className={`px-6 py-4 text-white font-semibold rounded-lg transform transition-all duration-300 ease-in-out shadow-lg disabled:opacity-80 disabled:cursor-not-allowed disabled:scale-100 focus:outline-none focus:ring-4 text-left ${feedbackClass}`}
+              className={`px-3 sm:px-6 py-2 sm:py-4 text-white font-semibold rounded-lg transform transition-all duration-300 ease-in-out shadow-md sm:shadow-lg disabled:opacity-80 disabled:cursor-not-allowed disabled:scale-100 focus:outline-none focus:ring-4 text-left text-xs sm:text-base truncate ${feedbackClass}`}
               aria-label={pm.name}
             >
               {pm.name}

@@ -219,50 +219,50 @@ const StartScreen: React.FC<StartScreenProps> = ({ onStart, pms, onShowInstructi
       <div className="flex-grow"></div>
 
       {/* Main Content Card */}
-      <div className="relative text-center p-8 bg-slate-800/80 backdrop-blur-md rounded-2xl shadow-2xl border border-slate-700 max-w-lg w-full mx-auto z-10 mt-20 mb-8">
-        <h1 className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500 mb-2 animate-fade-in-up mt-4">
+      <div className="relative text-center p-4 sm:p-8 bg-slate-800/80 backdrop-blur-md rounded-2xl shadow-2xl border border-slate-700 max-w-lg w-full mx-auto z-10 mt-14 sm:mt-20 mb-4 sm:mb-8">
+        <h1 className="text-3xl sm:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500 mb-1 sm:mb-2 animate-fade-in-up mt-2 sm:mt-4">
           {t('start.title')}
         </h1>
-        <p className="text-lg text-slate-300 mb-8 animate-fade-in-up animation-delay-200">
+        <p className="text-sm sm:text-lg text-slate-300 mb-4 sm:mb-8 animate-fade-in-up animation-delay-200">
           {t('start.subtitle')}
         </p>
-        <div className="grid grid-cols-2 gap-6 animate-fade-in-up animation-delay-400">
+        <div className="grid grid-cols-2 gap-3 sm:gap-6 animate-fade-in-up animation-delay-400">
             {/* Left Column */}
-            <div className="flex flex-col space-y-4">
-                <h2 className="text-2xl font-bold text-yellow-400 mb-2">{t('start.learn')}</h2>
+            <div className="flex flex-col space-y-2 sm:space-y-4">
+                <h2 className="text-lg sm:text-2xl font-bold text-yellow-400 mb-1 sm:mb-2">{t('start.learn')}</h2>
                  <button
                     onClick={onShowInstructions}
-                    className="w-full flex-1 px-5 py-3 bg-yellow-400 text-black font-bold rounded-lg hover:bg-yellow-500 transform hover:scale-105 transition-all duration-300 ease-in-out shadow-lg focus:outline-none focus:ring-4 focus:ring-yellow-500/50"
+                    className="w-full flex-1 px-3 sm:px-5 py-2 sm:py-3 bg-yellow-400 text-black font-bold rounded-lg hover:bg-yellow-500 transform hover:scale-105 transition-all duration-300 ease-in-out shadow-lg focus:outline-none focus:ring-4 focus:ring-yellow-500/50 text-xs sm:text-base"
                     aria-label="Show game instructions"
                     >
                     {t('start.howToPlay')}
                 </button>
                 <button
                     onClick={onReview}
-                    className="w-full flex-1 px-5 py-3 bg-yellow-400 text-black font-bold rounded-lg hover:bg-yellow-500 transform hover:scale-105 transition-all duration-300 ease-in-out shadow-lg focus:outline-none focus:ring-4 focus:ring-yellow-500/50"
+                    className="w-full flex-1 px-3 sm:px-5 py-2 sm:py-3 bg-yellow-400 text-black font-bold rounded-lg hover:bg-yellow-500 transform hover:scale-105 transition-all duration-300 ease-in-out shadow-lg focus:outline-none focus:ring-4 focus:ring-yellow-500/50 text-xs sm:text-base"
                     >
                     {t('start.reviewAll')}
                 </button>
             </div>
 
             {/* Right Column */}
-            <div className="flex flex-col space-y-4">
-                <h2 className="text-2xl font-bold text-blue-400 mb-2">{t('start.play')}</h2>
+            <div className="flex flex-col space-y-2 sm:space-y-4">
+                <h2 className="text-lg sm:text-2xl font-bold text-blue-400 mb-1 sm:mb-2">{t('start.play')}</h2>
                  <button
                   onClick={() => onStart('fact')}
-                  className="w-full px-6 py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transform hover:scale-105 transition-all duration-300 ease-in-out shadow-lg focus:outline-none focus:ring-4 focus:ring-blue-500/50 flex flex-col items-center leading-tight"
+                  className="w-full px-3 sm:px-6 py-2 sm:py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transform hover:scale-105 transition-all duration-300 ease-in-out shadow-lg focus:outline-none focus:ring-4 focus:ring-blue-500/50 flex flex-col items-center leading-tight text-xs sm:text-base"
                 >
                 <span>{t('start.guessPM')}</span>
                 </button>
                 <button
                 onClick={() => onStart('year')}
-                className="w-full px-6 py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transform hover:scale-105 transition-all duration-300 ease-in-out shadow-lg focus:outline-none focus:ring-4 focus:ring-blue-500/50 flex flex-col items-center leading-tight"
+                className="w-full px-3 sm:px-6 py-2 sm:py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transform hover:scale-105 transition-all duration-300 ease-in-out shadow-lg focus:outline-none focus:ring-4 focus:ring-blue-500/50 flex flex-col items-center leading-tight text-xs sm:text-base"
                 >
                 <span>{t('start.guessYear')}</span>
                 </button>
                  <button
                 onClick={() => onStart('pm')}
-                className="w-full px-6 py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transform hover:scale-105 transition-all duration-300 ease-in-out shadow-lg focus:outline-none focus:ring-4 focus:ring-blue-500/50 flex flex-col items-center leading-tight"
+                className="w-full px-3 sm:px-6 py-2 sm:py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transform hover:scale-105 transition-all duration-300 ease-in-out shadow-lg focus:outline-none focus:ring-4 focus:ring-blue-500/50 flex flex-col items-center leading-tight text-xs sm:text-base"
                 >
                 <span>{t('start.guessSuccessor')}</span>
                 </button>
@@ -270,15 +270,15 @@ const StartScreen: React.FC<StartScreenProps> = ({ onStart, pms, onShowInstructi
         </div>
         
         {/* Hall of Fame Link */}
-        <div className="mt-8 flex justify-center items-center animate-fade-in-up animation-delay-500">
+        <div className="mt-4 sm:mt-8 flex justify-center items-center animate-fade-in-up animation-delay-500">
           <button 
             onClick={onShowHallOfFame} 
-            className="flex items-center justify-center gap-2 text-slate-300 hover:text-yellow-400 transition-colors duration-300 focus:outline-none text-lg font-semibold"
+            className="flex items-center justify-center gap-1.5 sm:gap-2 text-slate-300 hover:text-yellow-400 transition-colors duration-300 focus:outline-none text-sm sm:text-lg font-semibold"
             title={t('hof.title')}
             aria-label={t('hof.title')}
           >
             <span>{t('hof.title')} &rarr;</span>
-            <span className="text-2xl hover:scale-125 transition-transform">🥇</span>
+            <span className="text-xl sm:text-2xl hover:scale-125 transition-transform">🥇</span>
           </button>
         </div>
       </div>

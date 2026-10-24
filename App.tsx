@@ -356,7 +356,7 @@ const App: React.FC = () => {
           : 'bg-blue-600 hover:bg-blue-700';
 
         return (
-          <div className={`w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-start ${gameMode === 'year' ? 'pt-24 sm:pt-28 pb-4' : 'min-h-screen pt-24 sm:pt-28 pb-8'}`}>
+          <div className={`w-full max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 flex flex-col items-center justify-start ${gameMode === 'year' ? 'pt-14 sm:pt-24 pb-2 sm:pb-4' : 'pt-14 sm:pt-24 pb-2 sm:pb-6'}`}>
             <Scoreboard 
               score={score} 
               incorrect={(gameState === 'feedback' ? currentRound + 1 : currentRound) - score} 
@@ -367,9 +367,9 @@ const App: React.FC = () => {
               soundEnabled={soundEnabled}
               onToggleSound={handleToggleSound}
             />
-            <div className="mt-2 sm:mt-3 w-full flex flex-col lg:flex-row lg:items-center lg:justify-center lg:gap-6">
+            <div className="mt-1 sm:mt-3 w-full flex flex-col lg:flex-row lg:items-center lg:justify-center lg:gap-6">
               {(gameMode !== 'fact' || gameState !== 'playing') && (
-                <div className={`${gameMode === 'year' ? 'w-full max-w-[260px] sm:max-w-[280px]' : 'w-full max-w-sm'} mx-auto lg:mx-0 flex-shrink-0 animate-fade-in`}>
+                <div className={`${gameMode === 'year' ? 'w-full max-w-[240px] sm:max-w-[280px]' : 'w-full max-w-[260px] sm:max-w-sm'} mx-auto lg:mx-0 flex-shrink-0 animate-fade-in`}>
                   <PrimeMinisterCard 
                     primeMinister={currentPM} 
                     showTerm={gameState === 'feedback' || isAdmin} 
@@ -381,15 +381,15 @@ const App: React.FC = () => {
                 </div>
               )}
 
-              <div className={`w-full ${gameMode === 'year' ? 'lg:max-w-sm mt-4 lg:mt-0' : 'lg:max-w-md mt-6 lg:mt-0'}`}>
+              <div className={`w-full ${gameMode === 'year' ? 'lg:max-w-sm mt-2 sm:mt-4 lg:mt-0' : 'lg:max-w-md mt-3 sm:mt-6 lg:mt-0'}`}>
                 {gameState === 'feedback' && lastGuess ? (
                   <Feedback lastGuess={lastGuess} onNext={nextRound} primeMinister={currentPM} onLearnMore={handleLearnMore} onShowCareerTree={handleShowCareerTree} allPMs={allPMsData} onStop={() => setGameState('start')} />
                 ) : (
-                   <div className={`${gameMode === 'year' ? 'p-4 sm:p-5' : 'p-6'} bg-slate-800/50 rounded-2xl border border-slate-700/50 animate-fade-in-up`}>
+                   <div className={`${gameMode === 'year' ? 'p-2.5 sm:p-5' : 'p-3 sm:p-6'} bg-slate-800/50 rounded-xl sm:rounded-2xl border border-slate-700/50 animate-fade-in-up`}>
                     {gameMode === 'year' ? (
-                       <form onSubmit={(e) => { e.preventDefault(); handleYearGuess(parseInt(typedYear)); }} className="flex flex-col sm:flex-row items-center gap-3 w-full">
-                            <input type="number" value={typedYear} onChange={(e) => setTypedYear(e.target.value)} placeholder={t('timeline.inputPlaceholder')} disabled={!!guessFeedback} className={`bg-slate-700/50 border border-slate-600 rounded-lg px-3 py-2 text-white text-base sm:text-lg w-full sm:flex-grow text-center focus:outline-none transition-all ${feedbackInputClass}`} />
-                            <button type="submit" disabled={!!guessFeedback || !typedYear} className={`w-full sm:w-auto px-5 py-2 text-white font-bold rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${feedbackButtonClass}`}>{t('timeline.submit')}</button>
+                       <form onSubmit={(e) => { e.preventDefault(); handleYearGuess(parseInt(typedYear)); }} className="flex flex-row items-center gap-2 w-full">
+                            <input type="number" value={typedYear} onChange={(e) => setTypedYear(e.target.value)} placeholder={t('timeline.inputPlaceholder')} disabled={!!guessFeedback} className={`bg-slate-700/50 border border-slate-600 rounded-lg px-3 py-1.5 sm:py-2 text-white text-sm sm:text-lg flex-grow text-center focus:outline-none transition-all ${feedbackInputClass}`} />
+                            <button type="submit" disabled={!!guessFeedback || !typedYear} className={`px-4 sm:px-5 py-1.5 sm:py-2 text-white font-bold text-sm sm:text-base rounded-lg transition-colors whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed ${feedbackButtonClass}`}>{t('timeline.submit')}</button>
                         </form>
                     ) : gameMode === 'pm' ? (
                         <NextPMGuesser pms={allPMsData} onSubmit={handlePMGuess} disabled={gameState === 'feedback'} feedback={guessFeedback} />
@@ -401,7 +401,7 @@ const App: React.FC = () => {
               </div>
             </div>
             {gameMode === 'year' && (
-              <div className="w-full mt-3 sm:mt-4">
+              <div className="w-full mt-1.5 sm:mt-4">
                  <Timeline onGuess={(year) => handleYearGuess(year)} disabled={gameState === 'feedback' || isAdmin || !!guessFeedback} lastGuess={lastGuess?.type === 'year' ? lastGuess : null} />
               </div>
             )}

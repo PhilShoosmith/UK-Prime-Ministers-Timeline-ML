@@ -55,7 +55,7 @@ const NextPMGuesser: React.FC<NextPMGuesserProps> = ({ pms, onSubmit, disabled, 
     : 'bg-purple-600 hover:bg-purple-700 focus:ring-purple-500/50';
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row items-center gap-4 w-full relative">
+    <form onSubmit={handleSubmit} className="flex flex-row items-center gap-2 sm:gap-4 w-full relative">
       <div className="w-full relative flex-grow" ref={dropdownRef}>
         <input
           type="text"
@@ -68,26 +68,26 @@ const NextPMGuesser: React.FC<NextPMGuesserProps> = ({ pms, onSubmit, disabled, 
           onFocus={() => setIsOpen(true)}
           placeholder={t('next.inputPlaceholder')}
           disabled={disabled || !!feedback}
-          className="bg-slate-700/50 border border-slate-600 rounded-lg px-4 py-3 text-white text-lg w-full focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all duration-300 disabled:opacity-50"
+          className="bg-slate-700/50 border border-slate-600 rounded-lg px-3 sm:px-4 py-2 sm:py-3 text-white text-sm sm:text-lg w-full focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all duration-300 disabled:opacity-50"
           aria-label="Search for the next prime minister"
         />
         
         {isOpen && !disabled && !feedback && (
-          <div className="absolute z-50 w-full mt-1 bg-slate-800 border border-slate-600 rounded-lg shadow-xl max-h-60 overflow-y-auto overflow-x-hidden">
+          <div className="absolute z-50 w-full mt-1 bg-slate-800 border border-slate-600 rounded-lg shadow-xl max-h-48 sm:max-h-60 overflow-y-auto overflow-x-hidden">
             {filteredPMs.length > 0 ? (
               <ul className="py-1">
                 {filteredPMs.map(pm => (
                   <li 
                     key={pm.id}
                     onClick={() => handleSelectPM(pm)}
-                    className="px-4 py-2 hover:bg-slate-700 cursor-pointer text-white truncate"
+                    className="px-3 sm:px-4 py-1.5 sm:py-2 hover:bg-slate-700 cursor-pointer text-white truncate text-xs sm:text-base"
                   >
                     {pm.name}
                   </li>
                 ))}
               </ul>
             ) : (
-              <div className="px-4 py-3 text-slate-400">
+              <div className="px-4 py-2 text-slate-400 text-xs sm:text-sm">
                 No prime ministers found.
               </div>
             )}
@@ -98,7 +98,7 @@ const NextPMGuesser: React.FC<NextPMGuesserProps> = ({ pms, onSubmit, disabled, 
       <button
         type="submit"
         disabled={disabled || !selectedId || !!feedback}
-        className={`w-full sm:w-auto px-6 py-3 text-white font-bold rounded-lg transform hover:scale-105 transition-all duration-300 ease-in-out shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:scale-100 focus:outline-none focus:ring-4 ${feedbackClass}`}
+        className={`w-auto px-4 sm:px-6 py-2 sm:py-3 text-white font-bold rounded-lg transform hover:scale-105 transition-all duration-300 ease-in-out shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:scale-100 focus:outline-none focus:ring-4 whitespace-nowrap text-xs sm:text-base ${feedbackClass}`}
       >
         {t('timeline.submit')}
       </button>

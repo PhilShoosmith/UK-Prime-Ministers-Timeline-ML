@@ -81,13 +81,13 @@ const PrimeMinisterCard: React.FC<PrimeMinisterCardProps> = ({ primeMinister, sh
   return (
     <div 
       onClick={() => onLearnMore?.(primeMinister)}
-      className={`bg-slate-800 ${compact ? 'rounded-xl p-3 sm:p-4 max-w-[260px] sm:max-w-[280px]' : 'rounded-2xl p-6 max-w-sm'} shadow-2xl border border-slate-700 flex flex-col items-center w-full transform transition-all duration-300 hover:scale-105 ${styles.cardHover} ${onLearnMore ? 'cursor-pointer group' : ''}`}
+      className={`bg-slate-800 ${compact ? 'rounded-xl p-2 sm:p-4 max-w-[240px] sm:max-w-[280px]' : 'rounded-xl sm:rounded-2xl p-3 sm:p-6 max-w-[250px] sm:max-w-sm'} shadow-xl sm:shadow-2xl border border-slate-700 flex flex-col items-center w-full transform transition-all duration-300 hover:scale-105 ${styles.cardHover} ${onLearnMore ? 'cursor-pointer group' : ''}`}
       role={onLearnMore ? "button" : undefined}
       aria-label={onLearnMore ? `View detailed history of ${name}` : undefined}
     >
-      <div className={`bg-gradient-to-br from-gray-700 via-gray-800 to-black ${compact ? 'p-1.5 mb-2' : 'p-2 mb-4'} rounded-lg shadow-lg w-full flex items-center justify-center`}>
+      <div className={`bg-gradient-to-br from-gray-700 via-gray-800 to-black ${compact ? 'p-1 mb-1 sm:mb-2' : 'p-1.5 sm:p-2 mb-2 sm:mb-4'} rounded-lg shadow-lg w-full flex items-center justify-center`}>
         <div 
-          className={`relative ${compact ? 'h-32 sm:h-36 w-auto aspect-[3/4] max-w-full' : 'aspect-[3/4] w-full'} rounded-md overflow-hidden bg-slate-700 flex items-center justify-center shadow-inner`}
+          className={`relative ${compact ? 'h-24 sm:h-36 w-auto aspect-[3/4] max-w-full' : 'h-28 sm:h-auto sm:aspect-[3/4] w-auto sm:w-full'} rounded-md overflow-hidden bg-slate-700 flex items-center justify-center shadow-inner`}
         >
           {displayImageUrl ? (
             <img 
@@ -132,18 +132,18 @@ const PrimeMinisterCard: React.FC<PrimeMinisterCardProps> = ({ primeMinister, sh
       <div 
         className="text-center w-full"
       >
-        <h2 className={`${compact ? 'text-lg sm:text-xl' : 'text-3xl sm:text-4xl'} font-bold text-center text-white pointer-events-none leading-tight`}>{name}</h2>
-        <div className={`${compact ? 'text-xs mt-1 px-2.5 py-0.5' : 'text-md mt-2 px-3 py-1'} font-semibold rounded-full inline-flex items-center gap-1.5 ${styles.badge} pointer-events-none`}>
+        <h2 className={`${compact ? 'text-base sm:text-xl' : 'text-lg sm:text-3xl md:text-4xl'} font-bold text-center text-white pointer-events-none leading-tight truncate px-1`}>{name}</h2>
+        <div className={`${compact ? 'text-[11px] sm:text-xs mt-0.5 sm:mt-1 px-2 py-0.5' : 'text-xs sm:text-md mt-1 sm:mt-2 px-2.5 sm:px-3 py-0.5 sm:py-1'} font-semibold rounded-full inline-flex items-center gap-1.5 ${styles.badge} pointer-events-none`}>
           <span>{t(`party.${party.toLowerCase()}`) || party}</span>
         </div>
       </div>
       
       {showTerm && (
         <>
-          <p className={`${compact ? 'text-xs mt-1' : 'text-md mt-2'} text-amber-300/80 font-mono text-center`}>
+          <p className={`${compact ? 'text-[11px] sm:text-xs mt-0.5 sm:mt-1' : 'text-xs sm:text-md mt-1 sm:mt-2'} text-amber-300/80 font-mono text-center`}>
             {termStart} – {termEndDisplay} {durationDisplay}
           </p>
-          <div className={`${compact ? 'mt-1.5' : 'mt-3'} flex items-center justify-center gap-1.5 flex-wrap`}>
+          <div className={`${compact ? 'mt-1' : 'mt-1.5 sm:mt-3'} flex items-center justify-center gap-1.5 flex-wrap`}>
             {onLearnMore && (
               <button
                 type="button"
@@ -151,10 +151,10 @@ const PrimeMinisterCard: React.FC<PrimeMinisterCardProps> = ({ primeMinister, sh
                   e.stopPropagation();
                   onLearnMore(primeMinister);
                 }}
-                className={`px-2.5 py-1 bg-blue-600/30 hover:bg-blue-600/50 text-blue-300 border border-blue-500/40 rounded-full ${compact ? 'text-[11px]' : 'text-xs'} font-semibold flex items-center gap-1 transition-all shadow-sm`}
+                className={`px-2 py-0.5 sm:px-2.5 sm:py-1 bg-blue-600/30 hover:bg-blue-600/50 text-blue-300 border border-blue-500/40 rounded-full ${compact ? 'text-[10px] sm:text-[11px]' : 'text-[11px] sm:text-xs'} font-semibold flex items-center gap-1 transition-all shadow-sm`}
                 title={`View detailed history of ${name}`}
               >
-                <BookOpen className="w-3 h-3 text-blue-400" />
+                <BookOpen className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-blue-400" />
                 <span>{t('rag.title')}</span>
               </button>
             )}
@@ -165,10 +165,10 @@ const PrimeMinisterCard: React.FC<PrimeMinisterCardProps> = ({ primeMinister, sh
                   e.stopPropagation();
                   onShowCareerTree(primeMinister);
                 }}
-                className={`px-2.5 py-1 bg-gradient-to-r from-amber-600/20 to-yellow-600/20 hover:from-amber-600/40 hover:to-yellow-600/40 text-amber-300 border border-amber-500/40 hover:border-amber-400 rounded-full ${compact ? 'text-[11px]' : 'text-xs'} font-semibold flex items-center gap-1 transition-all shadow-sm`}
+                className={`px-2 py-0.5 sm:px-2.5 sm:py-1 bg-gradient-to-r from-amber-600/20 to-yellow-600/20 hover:from-amber-600/40 hover:to-yellow-600/40 text-amber-300 border border-amber-500/40 hover:border-amber-400 rounded-full ${compact ? 'text-[10px] sm:text-[11px]' : 'text-[11px] sm:text-xs'} font-semibold flex items-center gap-1 transition-all shadow-sm`}
                 title={`View career tree and key roles for ${name}`}
               >
-                <Crown className="w-3 h-3 text-amber-400" />
+                <Crown className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-amber-400" />
                 <span>Career Tree</span>
               </button>
             )}
@@ -176,17 +176,17 @@ const PrimeMinisterCard: React.FC<PrimeMinisterCardProps> = ({ primeMinister, sh
         </>
       )}
 
-      <div className={`${compact ? 'mt-2 pt-2' : 'mt-6 pt-6'} w-full border-t border-slate-700/50 flex flex-col items-center`}>
-        <div className="flex items-center justify-center gap-2.5">
-            <svg xmlns="http://www.w3.org/2000/svg" className={`${compact ? 'h-4 w-4' : 'h-8 w-8'} text-slate-500 animate-rise-up`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+      <div className={`${compact ? 'hidden sm:flex mt-2 pt-2' : 'mt-2 sm:mt-6 pt-2 sm:pt-6 flex'} w-full border-t border-slate-700/50 flex-col items-center`}>
+        <div className="flex items-center justify-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" className={`${compact ? 'h-3.5 w-3.5' : 'h-5 w-5 sm:h-8 sm:w-8'} text-slate-500 animate-rise-up`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M5 15l7-7 7 7" />
             </svg>
             <CoatOfArms
-                className={compact ? "w-10 h-12" : "w-16 h-20"}
+                className={compact ? "w-8 h-10" : "w-10 h-12 sm:w-16 sm:h-20"}
                 imageUrl={primeMinister.coatOfArmsUrl}
                 isAdmin={isAdmin}
             />
-            <svg xmlns="http://www.w3.org/2000/svg" className={`${compact ? 'h-4 w-4' : 'h-8 w-8'} text-slate-500 animate-rise-up animation-delay-200`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" className={`${compact ? 'h-3.5 w-3.5' : 'h-5 w-5 sm:h-8 sm:w-8'} text-slate-500 animate-rise-up animation-delay-200`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M5 15l7-7 7 7" />
             </svg>
         </div>

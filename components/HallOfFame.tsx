@@ -112,22 +112,22 @@ const HallOfFame: React.FC<HallOfFameProps> = ({ leaderboards, onBack, initialMo
   const entries = filteredEntries;
 
   return (
-    <div className="w-full h-screen flex flex-col items-center justify-center p-4 bg-slate-900">
+    <div className="w-full h-screen flex flex-col items-center justify-center p-2 sm:p-4 bg-slate-900 overflow-hidden">
       {showConfetti && <Confetti />}
-      <div className="bg-slate-800/90 backdrop-blur-md rounded-2xl shadow-2xl border border-slate-700 max-w-2xl w-full h-[85vh] flex flex-col animate-fade-in relative">
-        <header className="p-4 sm:p-6 border-b border-slate-700 flex flex-col flex-shrink-0">
-          <div className="w-full flex flex-col md:flex-row items-center justify-between gap-4 mb-4 md:mb-6">
-            <h1 className="text-xl sm:text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-yellow-500 flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
-              <Trophy className="hidden sm:block w-5 h-5 sm:w-6 sm:h-6 text-amber-500" />
+      <div className="bg-slate-800/90 backdrop-blur-md rounded-xl sm:rounded-2xl shadow-2xl border border-slate-700 max-w-2xl w-full h-[90vh] sm:h-[85vh] flex flex-col animate-fade-in relative overflow-hidden">
+        <header className="p-2.5 sm:p-5 border-b border-slate-700 flex flex-col flex-shrink-0">
+          <div className="w-full flex items-center justify-between gap-1.5 sm:gap-4 mb-2.5 sm:mb-4">
+            <h1 className="text-sm sm:text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-yellow-500 flex items-center gap-1 sm:gap-2 flex-shrink-0">
+              <Trophy className="w-4 h-4 sm:w-6 sm:h-6 text-amber-500" />
               {t('hof.title')}
             </h1>
 
-            <div className="flex items-center justify-center bg-slate-900/50 p-1 rounded-lg gap-1 border border-slate-700/50 shadow-inner">
+            <div className="flex items-center justify-center bg-slate-900/50 p-0.5 sm:p-1 rounded-lg gap-0.5 sm:gap-1 border border-slate-700/50 shadow-inner">
               {(['lastWeek', 'lastMonth', 'allTime'] as const).map(filter => (
                 <button
                   key={filter}
                   onClick={() => setTimeFilter(filter)}
-                  className={`px-2 py-1 sm:px-3 sm:py-1 rounded text-[10px] sm:text-xs font-semibold transition-all whitespace-nowrap ${
+                  className={`px-1.5 py-0.5 sm:px-3 sm:py-1 rounded text-[9px] sm:text-xs font-semibold transition-all whitespace-nowrap ${
                     timeFilter === filter
                       ? 'bg-slate-700 text-amber-400 border border-amber-500/30 shadow-sm'
                       : 'text-slate-400 border border-transparent hover:text-slate-200 hover:bg-slate-800/80'
@@ -138,31 +138,31 @@ const HallOfFame: React.FC<HallOfFameProps> = ({ leaderboards, onBack, initialMo
               ))}
             </div>
 
-            <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+            <div className="flex items-center gap-1 sm:gap-3 flex-shrink-0">
               <button 
                  onClick={onBack}
-                 className="px-3 sm:px-4 py-1.5 sm:py-2 bg-slate-700 text-white font-bold rounded-lg hover:bg-slate-600 transition-all shadow-lg text-sm flex items-center gap-2"
+                 className="px-2 py-1 sm:px-4 sm:py-2 bg-slate-700 text-white font-bold rounded-lg hover:bg-slate-600 transition-all shadow-lg text-xs sm:text-sm flex items-center gap-1"
               >
                  &larr; <span className="hidden sm:inline">{t('review.back')}</span>
               </button>
               {isAudioSupported && (
                 <button 
                   onClick={toggleAudio}
-                  className="p-1.5 sm:p-2 bg-slate-700/50 hover:bg-slate-600 rounded-full text-slate-300 transition-colors"
+                  className="p-1 sm:p-2 bg-slate-700/50 hover:bg-slate-600 rounded-full text-slate-300 transition-colors"
                   title={isPlaying ? "Mute Music" : "Play Music"}
                 >
-                  {isPlaying ? <Volume2 size={18} className="sm:w-5 sm:h-5" /> : <VolumeX size={18} className="sm:w-5 sm:h-5" />}
+                  {isPlaying ? <Volume2 size={15} className="sm:w-5 sm:h-5" /> : <VolumeX size={15} className="sm:w-5 sm:h-5" />}
                 </button>
               )}
             </div>
           </div>
           
-          <div className="flex w-full gap-2 p-1 bg-slate-900/50 rounded-lg">
+          <div className="flex w-full gap-1 sm:gap-2 p-0.5 sm:p-1 bg-slate-900/50 rounded-lg">
             {(['fact', 'year', 'pm'] as GameMode[]).map(mode => (
               <button
                 key={mode}
                 onClick={() => setActiveMode(mode)}
-                className={`flex-1 px-4 py-2 rounded-md font-bold text-sm transition-all ${
+                className={`flex-1 px-1.5 sm:px-4 py-1 sm:py-2 rounded-md font-bold text-xs sm:text-sm transition-all text-center truncate ${
                   activeMode === mode 
                     ? 'bg-amber-600 text-white shadow-lg' 
                     : 'text-slate-400 hover:text-slate-200'
@@ -175,31 +175,31 @@ const HallOfFame: React.FC<HallOfFameProps> = ({ leaderboards, onBack, initialMo
 
         </header>
 
-        <div className="flex-grow overflow-y-auto p-6">
-          <table className="w-full text-left">
-            <thead className="text-xs uppercase tracking-wider text-slate-500 border-b border-slate-700/50">
+        <div className="flex-grow overflow-y-auto overflow-x-hidden p-2 sm:p-5">
+          <table className="w-full text-left table-fixed sm:table-auto">
+            <thead className="text-[10px] sm:text-xs uppercase tracking-wider text-slate-400 border-b border-slate-700/50">
               <tr>
-                <th className="pb-3 pl-2">{t('hof.rank')}</th>
-                <th className="pb-3">{t('hof.player')}</th>
-                <th className="pb-3 text-center">{t('hof.score')}</th>
-                <th className="pb-3 text-center">{t('hof.time')}</th>
-                <th className="pb-3 text-right pr-2">{t('hof.date')}</th>
+                <th className="pb-2 pl-1 sm:pl-2 w-[12%] sm:w-16">{t('hof.rank')}</th>
+                <th className="pb-2 w-[38%] sm:w-auto">{t('hof.name') || 'Name'}</th>
+                <th className="pb-2 text-center w-[18%] sm:w-20">{t('hof.score')}</th>
+                <th className="pb-2 text-center w-[14%] sm:w-20">{t('hof.time')}</th>
+                <th className="pb-2 text-right pr-1 sm:pr-2 w-[18%] sm:w-24">{t('hof.date')}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-700/30">
               {entries.length > 0 ? entries.map((entry, idx) => (
                 <tr key={idx} className={`group ${idx < 3 ? 'text-amber-200 font-bold' : 'text-slate-300'}`}>
-                  <td className="py-4 pl-2">
+                  <td className="py-2.5 sm:py-3 pl-1 sm:pl-2 text-xs sm:text-sm">
                     {idx === 0 ? '🥇' : idx === 1 ? '🥈' : idx === 2 ? '🥉' : `#${idx + 1}`}
                   </td>
-                  <td className="py-4 truncate max-w-[120px]">{entry.name}</td>
-                  <td className="py-4 text-center">
-                    <span className="px-2 py-1 bg-green-900/30 text-green-400 rounded border border-green-800/50">
+                  <td className="py-2.5 sm:py-3 truncate text-xs sm:text-sm font-medium">{entry.name}</td>
+                  <td className="py-2.5 sm:py-3 text-center">
+                    <span className="px-1.5 py-0.5 bg-green-900/30 text-green-400 rounded border border-green-800/50 text-[10px] sm:text-xs font-semibold whitespace-nowrap">
                       {entry.score}/10
                     </span>
                   </td>
-                  <td className="py-4 text-center font-mono text-blue-400">{entry.timeLeft}s</td>
-                  <td className="py-4 text-right text-xs text-slate-500 pr-2">
+                  <td className="py-2.5 sm:py-3 text-center font-mono text-blue-400 text-xs sm:text-sm whitespace-nowrap">{entry.timeLeft}s</td>
+                  <td className="py-2.5 sm:py-3 text-right text-[10px] sm:text-xs text-slate-400 sm:text-slate-500 pr-1 sm:pr-2 whitespace-nowrap font-mono">
                     {(() => {
                       try {
                         const d = new Date(entry.date);
@@ -213,7 +213,7 @@ const HallOfFame: React.FC<HallOfFameProps> = ({ leaderboards, onBack, initialMo
                 </tr>
               )) : (
                 <tr>
-                  <td colSpan={5} className="py-12 text-center text-slate-500 italic">
+                  <td colSpan={5} className="py-12 text-center text-slate-500 italic text-xs sm:text-sm">
                     {t('hof.noRecords')}
                   </td>
                 </tr>
