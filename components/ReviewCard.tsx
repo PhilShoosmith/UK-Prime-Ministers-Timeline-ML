@@ -28,12 +28,12 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ primeMinister, onLearnMore, onS
   return (
     <div 
       onClick={() => onLearnMore(primeMinister)}
-      className={`w-60 sm:w-72 h-[450px] sm:h-[480px] flex-shrink-0 bg-slate-900/90 backdrop-blur-md rounded-2xl shadow-xl border border-slate-700/70 hover:${styles.border} hover:shadow-2xl transition-all duration-300 p-3 sm:p-3.5 flex flex-col cursor-pointer group`}
+      className={`w-64 sm:w-72 h-[490px] sm:h-[530px] flex-shrink-0 bg-slate-900/90 backdrop-blur-md rounded-2xl shadow-xl border border-slate-700/70 hover:${styles.border} hover:shadow-2xl transition-all duration-300 p-2.5 sm:p-3 flex flex-col cursor-pointer group`}
       role="button"
       aria-label={`Learn more about ${name}`}
     >
-      {/* Prominent Picture - calibrated height so factual info fits without scrolling */}
-      <div className="w-full h-44 sm:h-50 rounded-xl overflow-hidden bg-slate-800 shadow-md flex-shrink-0">
+      {/* Picture - exactly two-thirds (66%) of the card height */}
+      <div className="w-full h-[64%] sm:h-[66%] rounded-xl overflow-hidden bg-slate-800 shadow-md flex-shrink-0 relative">
         {imageUrl ? (
           <img
             src={imageUrl}
@@ -48,34 +48,36 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ primeMinister, onLearnMore, onS
         )}
       </div>
 
-      {/* PM Details: Name, Term, and Direct Context Text */}
-      <div className="flex flex-col flex-grow min-h-0">
-        <h3 className="text-sm sm:text-base font-bold text-white text-center leading-tight truncate mt-2 sm:mt-2.5 px-1">
-          {name}
-        </h3>
-        <p className="text-[11px] sm:text-xs font-medium text-amber-400 text-center mt-0.5 font-mono">
-          {termStart} - {termEndDisplay}
-        </p>
+      {/* Remaining one-third: Name, Dates, Full Factual Text, and Action Buttons with zero overlay and zero scroll */}
+      <div className="flex flex-col flex-grow min-h-0 justify-between pt-1.5 sm:pt-2">
+        <div className="flex-shrink-0">
+          <h3 className="text-sm sm:text-base font-bold text-white text-center leading-tight truncate px-1">
+            {name}
+          </h3>
+          <p className="text-[11px] sm:text-xs font-medium text-amber-400 text-center font-mono mt-0.5">
+            {termStart} - {termEndDisplay}
+          </p>
+        </div>
         
-        {/* Historical Context - full text displayed cleanly with NO scroll required */}
+        {/* Historical Context - full text displayed cleanly with NO scroll and NO overlay */}
         <div 
           onClick={(e) => e.stopPropagation()} 
-          className="mt-2 text-left flex-grow flex items-center cursor-text"
+          className="flex-grow flex items-center my-0.5 text-left cursor-text overflow-hidden"
         >
-          <p className="text-[11px] sm:text-xs text-slate-300 leading-normal sm:leading-relaxed px-0.5">
+          <p className="text-[10.5px] sm:text-[11.5px] text-slate-300 leading-tight sm:leading-snug px-0.5">
             {displayContext}
           </p>
         </div>
 
         {/* Action Buttons matching Lord North reference */}
-        <div className="mt-2 pt-2 border-t border-slate-800 flex-shrink-0 flex items-center gap-2">
+        <div className="pt-1.5 sm:pt-2 border-t border-slate-800 flex-shrink-0 flex items-center gap-1.5 sm:gap-2">
           <button
             type="button"
             onClick={(e) => {
               e.stopPropagation();
               onLearnMore(primeMinister);
             }}
-            className="flex-1 py-1.5 px-2.5 bg-blue-600/20 hover:bg-blue-600/35 text-blue-300 border border-blue-500/40 hover:border-blue-400 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition-all shadow-sm"
+            className="flex-1 py-1 sm:py-1.5 px-2 bg-blue-600/20 hover:bg-blue-600/35 text-blue-300 border border-blue-500/40 hover:border-blue-400 rounded-lg text-[11px] sm:text-xs font-semibold flex items-center justify-center gap-1.5 transition-all shadow-sm"
             title={`View detailed history of ${name}`}
           >
             <BookOpen className="w-3.5 h-3.5 text-blue-400 flex-shrink-0" />
@@ -87,7 +89,7 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ primeMinister, onLearnMore, onS
               e.stopPropagation();
               onShowCareerTree?.(primeMinister);
             }}
-            className="flex-1 py-1.5 px-2.5 bg-amber-600/20 hover:bg-amber-600/35 text-amber-300 border border-amber-500/40 hover:border-amber-400 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition-all shadow-sm"
+            className="flex-1 py-1 sm:py-1.5 px-2 bg-amber-600/20 hover:bg-amber-600/35 text-amber-300 border border-amber-500/40 hover:border-amber-400 rounded-lg text-[11px] sm:text-xs font-semibold flex items-center justify-center gap-1.5 transition-all shadow-sm"
             title={`View career tree and key roles for ${name}`}
           >
             <Crown className="w-3.5 h-3.5 text-amber-400 flex-shrink-0" />
