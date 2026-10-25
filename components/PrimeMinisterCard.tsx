@@ -13,6 +13,7 @@ interface PrimeMinisterCardProps {
   onShowCareerTree?: (pm: PrimeMinister) => void;
   onLearnMore?: (pm: PrimeMinister) => void;
   compact?: boolean;
+  showButtons?: boolean;
 }
 
 const getPartyStyles = (party: string): { badge: string; cardHover: string; } => {
@@ -32,7 +33,17 @@ const getPartyStyles = (party: string): { badge: string; cardHover: string; } =>
   return { badge: 'bg-slate-700 text-slate-300', cardHover: 'hover:border-slate-600' };
 };
 
-const PrimeMinisterCard: React.FC<PrimeMinisterCardProps> = ({ primeMinister, showTerm, isAdmin, onPortraitUpload, stagedPortraitUrl, onShowCareerTree, onLearnMore, compact }) => {
+const PrimeMinisterCard: React.FC<PrimeMinisterCardProps> = ({ 
+  primeMinister, 
+  showTerm, 
+  isAdmin, 
+  onPortraitUpload, 
+  stagedPortraitUrl, 
+  onShowCareerTree, 
+  onLearnMore, 
+  compact,
+  showButtons = true
+}) => {
   const { t } = useLanguage();
   const portraitFileInputRef = useRef<HTMLInputElement>(null);
 
@@ -81,13 +92,13 @@ const PrimeMinisterCard: React.FC<PrimeMinisterCardProps> = ({ primeMinister, sh
   return (
     <div 
       onClick={() => onLearnMore?.(primeMinister)}
-      className={`bg-slate-800 ${compact ? 'rounded-xl p-2 sm:p-4 max-w-[240px] sm:max-w-[280px]' : 'rounded-xl sm:rounded-2xl p-3 sm:p-6 max-w-[250px] sm:max-w-sm'} shadow-xl sm:shadow-2xl border border-slate-700 flex flex-col items-center w-full transform transition-all duration-300 hover:scale-105 ${styles.cardHover} ${onLearnMore ? 'cursor-pointer group' : ''}`}
+      className={`bg-slate-800 ${compact ? 'rounded-lg sm:rounded-xl p-1.5 sm:p-2.5 max-w-[190px] sm:max-w-[220px]' : 'rounded-xl sm:rounded-2xl p-3 sm:p-6 max-w-[250px] sm:max-w-sm'} shadow-lg sm:shadow-xl border border-slate-700 flex flex-col items-center w-full transform transition-all duration-300 hover:scale-105 ${styles.cardHover} ${onLearnMore ? 'cursor-pointer group' : ''}`}
       role={onLearnMore ? "button" : undefined}
       aria-label={onLearnMore ? `View detailed history of ${name}` : undefined}
     >
-      <div className={`bg-gradient-to-br from-gray-700 via-gray-800 to-black ${compact ? 'p-1 mb-1 sm:mb-2' : 'p-1.5 sm:p-2 mb-2 sm:mb-4'} rounded-lg shadow-lg w-full flex items-center justify-center`}>
+      <div className={`bg-gradient-to-br from-gray-700 via-gray-800 to-black ${compact ? 'p-1 mb-1' : 'p-1.5 sm:p-2 mb-2 sm:mb-4'} rounded-lg shadow-lg w-full flex items-center justify-center`}>
         <div 
-          className={`relative ${compact ? 'h-24 sm:h-36 w-auto aspect-[3/4] max-w-full' : 'h-28 sm:h-auto sm:aspect-[3/4] w-auto sm:w-full'} rounded-md overflow-hidden bg-slate-700 flex items-center justify-center shadow-inner`}
+          className={`relative ${compact ? 'h-20 sm:h-24 md:h-28 w-auto aspect-[3/4] max-w-full' : 'h-28 sm:h-auto sm:aspect-[3/4] w-auto sm:w-full'} rounded-md overflow-hidden bg-slate-700 flex items-center justify-center shadow-inner`}
         >
           {displayImageUrl ? (
             <img 
@@ -101,7 +112,7 @@ const PrimeMinisterCard: React.FC<PrimeMinisterCardProps> = ({ primeMinister, sh
             <span className="text-slate-400 text-xs sm:text-sm">{t('pmCard.noPortrait')}</span>
           )}
           {stagedPortraitUrl && (
-            <div className="absolute top-2 right-2 bg-yellow-400 text-yellow-900 text-xs font-bold px-2 py-1 rounded-full shadow-lg pointer-events-none">
+            <div className="absolute top-1.5 right-1.5 bg-yellow-400 text-yellow-900 text-[10px] font-bold px-1.5 py-0.5 rounded-full shadow pointer-events-none">
               {t('pmCard.pending')}
             </div>
           )}
@@ -113,9 +124,9 @@ const PrimeMinisterCard: React.FC<PrimeMinisterCardProps> = ({ primeMinister, sh
                 role="button"
                 aria-label="Change PM portrait"
               >
-                <div className="text-center text-white p-4">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>
-                  <p className="mt-1 text-xs font-semibold">{t('coatOfArms.changeImage')}</p>
+                <div className="text-center text-white p-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>
+                  <p className="mt-1 text-[10px] font-semibold">{t('coatOfArms.changeImage')}</p>
                 </div>
               </div>
               <input
@@ -132,61 +143,63 @@ const PrimeMinisterCard: React.FC<PrimeMinisterCardProps> = ({ primeMinister, sh
       <div 
         className="text-center w-full"
       >
-        <h2 className={`${compact ? 'text-base sm:text-xl' : 'text-lg sm:text-3xl md:text-4xl'} font-bold text-center text-white pointer-events-none leading-tight truncate px-1`}>{name}</h2>
-        <div className={`${compact ? 'text-[11px] sm:text-xs mt-0.5 sm:mt-1 px-2 py-0.5' : 'text-xs sm:text-md mt-1 sm:mt-2 px-2.5 sm:px-3 py-0.5 sm:py-1'} font-semibold rounded-full inline-flex items-center gap-1.5 ${styles.badge} pointer-events-none`}>
+        <h2 className={`${compact ? 'text-xs sm:text-sm font-bold' : 'text-lg sm:text-3xl md:text-4xl font-bold'} text-center text-white pointer-events-none leading-tight truncate px-1`}>{name}</h2>
+        <div className={`${compact ? 'text-[9px] sm:text-[11px] mt-0.5 px-1.5 py-0.5' : 'text-xs sm:text-md mt-1 sm:mt-2 px-2.5 sm:px-3 py-0.5 sm:py-1'} font-semibold rounded-full inline-flex items-center gap-1 ${styles.badge} pointer-events-none`}>
           <span>{t(`party.${party.toLowerCase()}`) || party}</span>
         </div>
       </div>
       
       {showTerm && (
         <>
-          <p className={`${compact ? 'text-[11px] sm:text-xs mt-0.5 sm:mt-1' : 'text-xs sm:text-md mt-1 sm:mt-2'} text-amber-300/80 font-mono text-center`}>
-            {termStart} – {termEndDisplay} {durationDisplay}
+          <p className={`${compact ? 'text-[9px] sm:text-[11px] mt-0.5' : 'text-xs sm:text-md mt-1 sm:mt-2'} text-amber-300/80 font-mono text-center`}>
+            {termStart} – {termEndDisplay} ({durationDisplay})
           </p>
-          <div className={`${compact ? 'mt-1' : 'mt-1.5 sm:mt-3'} flex items-center justify-center gap-1.5 flex-wrap`}>
-            {onLearnMore && (
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onLearnMore(primeMinister);
-                }}
-                className={`px-2 py-0.5 sm:px-2.5 sm:py-1 bg-blue-600/30 hover:bg-blue-600/50 text-blue-300 border border-blue-500/40 rounded-full ${compact ? 'text-[10px] sm:text-[11px]' : 'text-[11px] sm:text-xs'} font-semibold flex items-center gap-1 transition-all shadow-sm`}
-                title={`View detailed history of ${name}`}
-              >
-                <BookOpen className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-blue-400" />
-                <span>{t('rag.title')}</span>
-              </button>
-            )}
-            {onShowCareerTree && (
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onShowCareerTree(primeMinister);
-                }}
-                className={`px-2 py-0.5 sm:px-2.5 sm:py-1 bg-gradient-to-r from-amber-600/20 to-yellow-600/20 hover:from-amber-600/40 hover:to-yellow-600/40 text-amber-300 border border-amber-500/40 hover:border-amber-400 rounded-full ${compact ? 'text-[10px] sm:text-[11px]' : 'text-[11px] sm:text-xs'} font-semibold flex items-center gap-1 transition-all shadow-sm`}
-                title={`View career tree and key roles for ${name}`}
-              >
-                <Crown className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-amber-400" />
-                <span>Career Tree</span>
-              </button>
-            )}
-          </div>
+          {showButtons && (
+            <div className={`${compact ? 'mt-1' : 'mt-1.5 sm:mt-3'} flex items-center justify-center gap-1.5 flex-wrap`}>
+              {onLearnMore && (
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onLearnMore(primeMinister);
+                  }}
+                  className={`px-2 py-0.5 bg-blue-600/30 hover:bg-blue-600/50 text-blue-300 border border-blue-500/40 rounded-full ${compact ? 'text-[9px] sm:text-[10px]' : 'text-[11px] sm:text-xs'} font-semibold flex items-center gap-1 transition-all shadow-sm`}
+                  title={`View detailed history of ${name}`}
+                >
+                  <BookOpen className="w-2.5 h-2.5 text-blue-400" />
+                  <span>{t('rag.title')}</span>
+                </button>
+              )}
+              {onShowCareerTree && (
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onShowCareerTree(primeMinister);
+                  }}
+                  className={`px-2 py-0.5 bg-gradient-to-r from-amber-600/20 to-yellow-600/20 hover:from-amber-600/40 hover:to-yellow-600/40 text-amber-300 border border-amber-500/40 hover:border-amber-400 rounded-full ${compact ? 'text-[9px] sm:text-[10px]' : 'text-[11px] sm:text-xs'} font-semibold flex items-center gap-1 transition-all shadow-sm`}
+                  title={`View career tree and key roles for ${name}`}
+                >
+                  <Crown className="w-2.5 h-2.5 text-amber-400" />
+                  <span>Career Tree</span>
+                </button>
+              )}
+            </div>
+          )}
         </>
       )}
 
-      <div className={`${compact ? 'hidden sm:flex mt-2 pt-2' : 'mt-2 sm:mt-6 pt-2 sm:pt-6 flex'} w-full border-t border-slate-700/50 flex-col items-center`}>
-        <div className="flex items-center justify-center gap-2">
-            <svg xmlns="http://www.w3.org/2000/svg" className={`${compact ? 'h-3.5 w-3.5' : 'h-5 w-5 sm:h-8 sm:w-8'} text-slate-500 animate-rise-up`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+      <div className={`${compact ? 'hidden md:flex mt-1 pt-1' : 'mt-2 sm:mt-6 pt-2 sm:pt-6 flex'} w-full border-t border-slate-700/50 flex-col items-center`}>
+        <div className="flex items-center justify-center gap-1.5">
+            <svg xmlns="http://www.w3.org/2000/svg" className={`${compact ? 'h-3 w-3' : 'h-5 w-5 sm:h-8 sm:w-8'} text-slate-500 animate-rise-up`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M5 15l7-7 7 7" />
             </svg>
             <CoatOfArms
-                className={compact ? "w-8 h-10" : "w-10 h-12 sm:w-16 sm:h-20"}
+                className={compact ? "w-6 h-8" : "w-10 h-12 sm:w-16 sm:h-20"}
                 imageUrl={primeMinister.coatOfArmsUrl}
                 isAdmin={isAdmin}
             />
-            <svg xmlns="http://www.w3.org/2000/svg" className={`${compact ? 'h-3.5 w-3.5' : 'h-5 w-5 sm:h-8 sm:w-8'} text-slate-500 animate-rise-up animation-delay-200`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" className={`${compact ? 'h-3 w-3' : 'h-5 w-5 sm:h-8 sm:w-8'} text-slate-500 animate-rise-up animation-delay-200`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M5 15l7-7 7 7" />
             </svg>
         </div>

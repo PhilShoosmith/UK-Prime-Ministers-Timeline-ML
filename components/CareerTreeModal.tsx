@@ -180,38 +180,48 @@ export const CareerTreeModal: React.FC<CareerTreeModalProps> = ({
             <X className="w-5 h-5" />
           </button>
 
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 pr-10">
+          <div className="flex flex-row items-center gap-3.5 sm:gap-6 pr-8 sm:pr-10">
             {primeMinister.imageUrl ? (
               <img 
                 src={primeMinister.imageUrl} 
                 alt={primeMinister.name}
-                className="w-20 h-24 sm:w-24 sm:h-28 object-cover rounded-xl shadow-lg border-2 border-slate-600 flex-shrink-0"
+                className="w-16 h-20 sm:w-24 sm:h-28 object-cover rounded-xl shadow-lg border-2 border-slate-600 flex-shrink-0"
                 loading="lazy"
               />
             ) : (
-              <div className="w-20 h-24 sm:w-24 sm:h-28 bg-slate-800 border-2 border-slate-700 rounded-xl flex items-center justify-center text-slate-400 text-xs text-center p-2">
+              <div className="w-16 h-20 sm:w-24 sm:h-28 bg-slate-800 border-2 border-slate-700 rounded-xl flex items-center justify-center text-slate-400 text-xs text-center p-2 flex-shrink-0">
                 No portrait
               </div>
             )}
 
-            <div className="flex-grow min-w-0">
-              <div className="flex flex-wrap items-center gap-2 mb-1.5">
-                <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold border ${partyStyle.badge}`}>
+            <div className="flex-grow min-w-0 flex flex-col justify-center">
+              {/* Line above metadata */}
+              <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+                <span className={`inline-flex items-center gap-1 sm:gap-1.5 px-2 sm:px-2.5 py-0.5 rounded-full text-[10px] sm:text-xs font-semibold border ${partyStyle.badge}`}>
                   <span className={`w-1.5 h-1.5 rounded-full ${partyStyle.dot}`} />
                   {t(`party.${primeMinister.party.toLowerCase()}`) || primeMinister.party}
                 </span>
-                <span className="text-xs font-mono text-amber-300/90 bg-amber-950/40 border border-amber-600/30 px-2.5 py-0.5 rounded-full flex items-center gap-1">
-                  <Calendar className="w-3 h-3 text-amber-400" />
+                <span className="text-[10px] sm:text-xs font-mono text-amber-300/90 bg-amber-950/40 border border-amber-600/30 px-2 sm:px-2.5 py-0.5 rounded-full flex items-center gap-1">
+                  <Calendar className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-amber-400" />
                   {primeMinister.termStart} – {primeMinister.termEnd ?? t('pmCard.present')}
                 </span>
               </div>
 
-              <h2 id="career-tree-title" className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+              {/* Line above PM Name */}
+              <div className="border-t border-slate-700/80 my-1 sm:my-1.5 w-full" />
+
+              {/* PM Name */}
+              <h2 id="career-tree-title" className="text-lg sm:text-2xl md:text-3xl font-extrabold text-white tracking-tight leading-tight truncate">
                 {primeMinister.name}
               </h2>
-              <p className="text-sm text-slate-400 mt-1 flex items-center gap-1.5">
-                <Crown className="w-4 h-4 text-amber-400 inline" />
-                <span className="text-amber-200/90 font-medium">Career Tree & Key Roles</span>
+
+              {/* Line below PM Name */}
+              <div className="border-b border-slate-700/80 my-1 sm:my-1.5 w-full" />
+
+              {/* Line below subtitle */}
+              <p className="text-xs sm:text-sm text-slate-400 flex items-center gap-1.5">
+                <Crown className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-400 inline flex-shrink-0" />
+                <span className="text-amber-200/90 font-medium truncate">Career Tree & Key Roles</span>
               </p>
             </div>
           </div>

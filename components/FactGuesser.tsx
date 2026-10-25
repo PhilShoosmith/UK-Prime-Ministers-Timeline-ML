@@ -36,23 +36,23 @@ const FactGuesser: React.FC<FactGuesserProps> = ({ primeMinister, allPMs, onSubm
 
   return (
     <div className="w-full">
-      <p className="text-sm sm:text-lg md:text-xl text-slate-300 font-light mb-2 sm:mb-4 text-center">
+      <p className="text-xs sm:text-sm md:text-base text-slate-300 font-medium mb-1 sm:mb-2 text-center">
         {t('fact.title')}
       </p>
-      <blockquote className="border-l-4 border-slate-600 pl-3 py-1.5 sm:py-2 mb-2.5 sm:mb-6 bg-slate-900/30 rounded-r-lg">
-        <p className="text-xs sm:text-base text-slate-200 italic leading-snug">"{language === 'hi' && primeMinister.contextHi ? primeMinister.contextHi : (language === 'ar' && primeMinister.contextAr ? primeMinister.contextAr : (language === 'zh' && primeMinister.contextZh ? primeMinister.contextZh : (language === 'es' && primeMinister.contextEs ? primeMinister.contextEs : (language === 'ja' && primeMinister.contextJa ? primeMinister.contextJa : (language === 'fr' && primeMinister.contextFr ? primeMinister.contextFr : primeMinister.context)))))}"</p>
+      <blockquote className="border-l-3 border-amber-500/60 pl-2.5 py-1 sm:py-1.5 mb-2 sm:mb-3 bg-slate-900/40 rounded-r-lg max-h-24 sm:max-h-28 overflow-y-auto">
+        <p className="text-xs sm:text-sm text-slate-200 italic leading-snug">"{language === 'hi' && primeMinister.contextHi ? primeMinister.contextHi : (language === 'ar' && primeMinister.contextAr ? primeMinister.contextAr : (language === 'zh' && primeMinister.contextZh ? primeMinister.contextZh : (language === 'es' && primeMinister.contextEs ? primeMinister.contextEs : (language === 'ja' && primeMinister.contextJa ? primeMinister.contextJa : (language === 'fr' && primeMinister.contextFr ? primeMinister.contextFr : primeMinister.context)))))}"</p>
       </blockquote>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4">
+      <div className="grid grid-cols-2 gap-1.5 sm:gap-2.5">
         {options.map(pm => {
           const isSelected = feedback && feedback.id === pm.id;
           const isCorrect = pm.id === primeMinister.id;
 
-          let feedbackClass = 'bg-slate-700/50 hover:bg-slate-600/80 focus:ring-teal-500/50';
+          let feedbackClass = 'bg-slate-700/60 hover:bg-slate-600/80 focus:ring-teal-500/50';
           if (feedback) {
             if (isSelected) {
               feedbackClass = feedback.isCorrect
-                ? 'bg-green-600 border-green-400 scale-105 ring-2 ring-green-400'
-                : 'bg-red-600 border-red-400 scale-105 ring-2 ring-red-400';
+                ? 'bg-green-600 border-green-400 scale-[1.02] ring-2 ring-green-400'
+                : 'bg-red-600 border-red-400 scale-[1.02] ring-2 ring-red-400';
             } else if (isCorrect && !feedback.isCorrect) {
               // If guess was wrong, highlight the correct one
               feedbackClass = 'bg-green-600/60 border-green-500/50';
@@ -64,7 +64,7 @@ const FactGuesser: React.FC<FactGuesserProps> = ({ primeMinister, allPMs, onSubm
               key={pm.id}
               onClick={() => onSubmit(pm.id)}
               disabled={disabled || !!feedback}
-              className={`px-3 sm:px-6 py-2 sm:py-4 text-white font-semibold rounded-lg transform transition-all duration-300 ease-in-out shadow-md sm:shadow-lg disabled:opacity-80 disabled:cursor-not-allowed disabled:scale-100 focus:outline-none focus:ring-4 text-left text-xs sm:text-base truncate ${feedbackClass}`}
+              className={`px-2 sm:px-3 py-2 sm:py-2.5 text-white font-semibold rounded-lg transform transition-all duration-200 shadow disabled:opacity-80 disabled:cursor-not-allowed focus:outline-none focus:ring-2 text-center text-xs sm:text-sm truncate ${feedbackClass}`}
               aria-label={pm.name}
             >
               {pm.name}
